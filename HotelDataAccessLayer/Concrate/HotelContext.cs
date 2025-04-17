@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,7 @@ namespace HotelDataAccessLayer.Concrate
         public DbSet<ReservationDetail> ReservationDetails { get; set; }
         public DbSet<RoomType> RoomTypes { get; set; }
         //public DbSet<HotelService> HotelServices { get; set; }
+        public DbSet<HotelServ> HotelServs { get; set; }
         public DbSet<SocialMedia> SocialMedias { get; set; }
           
     }

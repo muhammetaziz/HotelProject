@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelDataAccessLayer.Migrations
 {
     [DbContext(typeof(HotelContext))]
-    [Migration("20250415135919_mig1")]
-    partial class mig1
+    [Migration("20250415145516_Initializing")]
+    partial class Initializing
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -141,6 +141,31 @@ namespace HotelDataAccessLayer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Homes");
+                });
+
+            modelBuilder.Entity("HotelEntityLayer.Entities.HotelServ", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ActivityDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ActivityIcon")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ActivityTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HotelServs");
                 });
 
             modelBuilder.Entity("HotelEntityLayer.Entities.Reservation", b =>

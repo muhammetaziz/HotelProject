@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HotelDataAccessLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class mig1 : Migration
+    public partial class Initializing : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -76,6 +76,21 @@ namespace HotelDataAccessLayer.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Homes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HotelServs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ActivityTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ActivityDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ActivityIcon = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HotelServs", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -183,6 +198,9 @@ namespace HotelDataAccessLayer.Migrations
 
             migrationBuilder.DropTable(
                 name: "Homes");
+
+            migrationBuilder.DropTable(
+                name: "HotelServs");
 
             migrationBuilder.DropTable(
                 name: "ReservationDetails");

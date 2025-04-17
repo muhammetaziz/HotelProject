@@ -140,6 +140,31 @@ namespace HotelDataAccessLayer.Migrations
                     b.ToTable("Homes");
                 });
 
+            modelBuilder.Entity("HotelEntityLayer.Entities.HotelServ", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ActivityDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ActivityIcon")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ActivityTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HotelServs");
+                });
+
             modelBuilder.Entity("HotelEntityLayer.Entities.Reservation", b =>
                 {
                     b.Property<int>("ReservationId")
