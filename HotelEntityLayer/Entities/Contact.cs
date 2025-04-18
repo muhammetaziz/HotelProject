@@ -9,10 +9,10 @@ namespace HotelEntityLayer.Entities
     public class Contact
     {
         public int ContactId { get; set; }
-        public string ContactNumber { get; set; } = null!;
-        public string ContactEmail { get; set; } = null!;
-        public string ContactAdress { get; set; } = null!;
-        public string ContactDescription { get; set; } = null!;
-        public string ContactMap { get; set; } = null!;
+        public string ContactNumber { get; set; }  
+        public string ContactEmail { get; set; }  
+        public string ContactAdress { get; set; }  
+        public string ContactDescription { get; set; } 
+        public string ContactMap { get; set; }  
     }
 }

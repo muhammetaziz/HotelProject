@@ -59,6 +59,12 @@ namespace HotelDataAccessLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentId"));
 
+                    b.Property<bool>("CommentActivate")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("CommentDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("CommentEmail")
                         .HasColumnType("nvarchar(max)");
 

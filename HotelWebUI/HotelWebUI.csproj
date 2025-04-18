@@ -1,9 +1,28 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\AdminLTE-master\.github\codeql\codeql-config.yml" />
+    <None Include="wwwroot\AdminLTE-master\.github\CONTRIBUTING.md" />
+    <None Include="wwwroot\AdminLTE-master\.github\dependabot.yml" />
+    <None Include="wwwroot\AdminLTE-master\.github\FUNDING.yml" />
+    <None Include="wwwroot\AdminLTE-master\.github\ISSUE_TEMPLATE\bug-report-for-adminlte-v3.1-x.md" />
+    <None Include="wwwroot\AdminLTE-master\.github\ISSUE_TEMPLATE\feature-request-for-adminlte-v4-x.md" />
+    <None Include="wwwroot\AdminLTE-master\.github\workflows\bundlewatch.yml" />
+    <None Include="wwwroot\AdminLTE-master\.github\workflows\codeql.yml" />
+    <None Include="wwwroot\AdminLTE-master\.github\workflows\docs.yml" />
+    <None Include="wwwroot\AdminLTE-master\.github\workflows\lint.yml" />
+    <None Include="wwwroot\AdminLTE-master\.github\workflows\node-sass.yml" />
+    <None Include="wwwroot\AdminLTE-master\.github\workflows\release.yml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
+  </ItemGroup>
 
 </Project>
