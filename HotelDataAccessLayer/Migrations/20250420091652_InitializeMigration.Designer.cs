@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelDataAccessLayer.Migrations
 {
     [DbContext(typeof(HotelContext))]
-    [Migration("20250418081004_entity_Update_All")]
-    partial class entity_Update_All
+    [Migration("20250420091652_InitializeMigration")]
+    partial class InitializeMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,6 +52,16 @@ namespace HotelDataAccessLayer.Migrations
                     b.HasKey("AboutId");
 
                     b.ToTable("Abouts");
+
+                    b.HasData(
+                        new
+                        {
+                            AboutId = 1,
+                            AboutDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                            Image1 = "https://cdn.pixabay.com/photo/2016/11/29/09/08/hotel-1867180_1280.jpg",
+                            Image2 = "https://cdn.pixabay.com/photo/2016/11/29/09/08/hotel-1867180_1280.jpg",
+                            Image3 = "https://cdn.pixabay.com/photo/2016/11/29/09/08/hotel-1867180_1280.jpg"
+                        });
                 });
 
             modelBuilder.Entity("HotelEntityLayer.Entities.Comment", b =>
@@ -127,6 +137,9 @@ namespace HotelDataAccessLayer.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HotelName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Image1")
@@ -295,6 +308,15 @@ namespace HotelDataAccessLayer.Migrations
                     b.HasKey("SocialMediaId");
 
                     b.ToTable("SocialMedias");
+
+                    b.HasData(
+                        new
+                        {
+                            SocialMediaId = 1,
+                            Facebook = "https://www.facebook.com/",
+                            Instagram = "https://www.instagram.com/",
+                            Twitter = "https://twitter.com/"
+                        });
                 });
 
             modelBuilder.Entity("HotelEntityLayer.Entities.ReservationDetail", b =>

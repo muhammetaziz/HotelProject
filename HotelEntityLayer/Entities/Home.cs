@@ -9,6 +9,7 @@ namespace HotelEntityLayer.Entities
     public class Home
     {
         public int Id { get; set; }
+        public string? HotelName { get; set; }
         public string? Title { get; set; }
         public string? Description { get; set; }
         public string? Image1 { get; set; }

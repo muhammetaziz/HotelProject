@@ -1,0 +1,78 @@
+﻿@model HotelWebUI.Dtos.AboutDtos.ResultAboutDto
+    @if (Model==null)
+    {
+        <h1>model null</h1>
+    }
+
+    @{
+        ViewData["Title"] = "UpdateAbout";
+        Layout = "~/Views/AdminLayout/Index.cshtml";
+    }
+
+    <div class="card card-info card-outline mb-4">
+        <div class="card-header"><div class="card-title">Hakkımda yazısı güncelleme</div></div>
+        <form class="needs-validation" method="post">
+            <div class="card-body">
+                <div class="row g-3">
+                    <input @Model.AboutId hidden />
+                    <div class="col-md-6">
+                        <label for="validationCustom03" class="form-label">Hakkımda Yazısı</label>
+                        <textarea @Model.AboutDescription
+                                  placeholder="Hakkımda Yazısı"
+                                  rows="5"
+                                  type="text"
+                                  class="form-control"
+                                  id="validationCustom03"
+                                  required>@Model.AboutDescription</textarea>
+                        <div class="invalid-feedback">Please provide a valid city.</div>
+                        <span asp-validation-for="AboutDescription" class="text-danger"></span>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <input @Model.Image1 type="file" class="form-control" id="inputGroupFile02" />
+                        <label class="input-group-text" for="inputGroupFile02">1.Görsel</label>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input @Model.Image2 type="file" class="form-control" id="inputGroupFile02" />
+                        <label class="input-group-text" for="inputGroupFile02">2.Görsel</label>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input @Model.Image3 type="file" class="form-control" id="inputGroupFile02" />
+                        <label class="input-group-text" for="inputGroupFile02">3.Görsel</label>
+                    </div>
+                    <div asp-validation-summary="All"> </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-info" type="submit">Güncelle</button>
+            </div>
+        </form>
+
+        <script>
+
+            (() => {
+                'use strict';
+
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                const forms = document.querySelectorAll('.needs-validation');
+
+                // Loop over them and prevent submission
+                Array.from(forms).forEach((form) => {
+                    form.addEventListener(
+                        'submit',
+                        (event) => {
+                            if (!form.checkValidity()) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+
+                            form.classList.add('was-validated');
+                        },
+                        false,
+                    );
+                });
+            })();
+        </script>
+        <!--end::JavaScript-->
+    </div>
+

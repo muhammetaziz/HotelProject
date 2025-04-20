@@ -1,5 +1,6 @@
 ﻿using HotelBusinessLayer.Abstract;
 using HotelDtoLayer.AboutDto;
+using HotelDtoLayer.CommentDto;
 using HotelEntityLayer.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +24,7 @@ namespace HotelWebApi.Controllers
             var values = _aboutService.TGetListAll();
             return Ok(values);
         }
-        
+
         [HttpPost]
         public IActionResult CreateAbout(CreateAboutDto createAboutDto)
         {
@@ -47,23 +48,35 @@ namespace HotelWebApi.Controllers
         }
 
         [HttpPut]
-        public IActionResult UpdateAbout(UpdateAboutDto updateAboutDto)
+        public IActionResult UpdateComment(UpdateAboutDto updateAboutDto)
         {
-            var values = _aboutService.TGetById(updateAboutDto.AboutId);
-
+            var values = _aboutService.TGetById(1);
+            if (values == null)
+            {
+                return NotFound("Hakkımda kısmı bulunamadı.");
+            }
+            values.AboutId = 1;
             values.AboutDescription = updateAboutDto.AboutDescription;
             values.Image1 = updateAboutDto.Image1;
             values.Image2 = updateAboutDto.Image2;
             values.Image3 = updateAboutDto.Image3;
             _aboutService.TUpdate(values);
-            return Ok("Seçili hakkımda kısmı başarılı bir şekilde güncellendi.");
+
+            return Ok("Seçili hakkımda kısmı başarılı şekilde güncellendi.");
         }
 
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-             var values = _aboutService.TGetById(id);
+            var values = _aboutService.TGetById(id);
             return Ok(values);
         }
+
+        //[HttpGet]
+        //public IActionResult TakeOneAbout()
+        //{
+        //    var values = _aboutService.TGetListAll().FirstOrDefault();
+        //    return Ok (values);
+        //}
     }
 }

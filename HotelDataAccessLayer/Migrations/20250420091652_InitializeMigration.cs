@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HotelDataAccessLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class Initializing : Migration
+    public partial class InitializeMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -36,6 +36,8 @@ namespace HotelDataAccessLayer.Migrations
                     CommentName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CommentMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CommentEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CommentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CommentActivate = table.Column<bool>(type: "bit", nullable: false),
                     RatingRange = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -66,6 +68,7 @@ namespace HotelDataAccessLayer.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    HotelName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Image1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -172,6 +175,16 @@ namespace HotelDataAccessLayer.Migrations
                         principalColumn: "RoomTypeId",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Abouts",
+                columns: new[] { "AboutId", "AboutDescription", "Image1", "Image2", "Image3" },
+                values: new object[] { 1, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", "https://cdn.pixabay.com/photo/2016/11/29/09/08/hotel-1867180_1280.jpg", "https://cdn.pixabay.com/photo/2016/11/29/09/08/hotel-1867180_1280.jpg", "https://cdn.pixabay.com/photo/2016/11/29/09/08/hotel-1867180_1280.jpg" });
+
+            migrationBuilder.InsertData(
+                table: "SocialMedias",
+                columns: new[] { "SocialMediaId", "Facebook", "Instagram", "Twitter" },
+                values: new object[] { 1, "https://www.facebook.com/", "https://www.instagram.com/", "https://twitter.com/" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ReservationDetails_ReservationId",
