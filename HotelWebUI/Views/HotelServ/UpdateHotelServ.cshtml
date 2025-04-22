@@ -1,0 +1,44 @@
+﻿@model HotelWebUI.Dtos.HotelServDtos.ResultHotelServDto
+@{
+    ViewData["Title"] = "UpdateHotelServ";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="card shadow rounded-4">
+        <div class="card-header bg-primary text-white rounded-top-4">
+            <h4><i class="fas fa-plus me-2"></i>Otel Hizmetni Güncelle</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="UpdateHotelServ" method="post">
+                <div class="mb-3">
+                    <label class="form-label">Hizmet Başlığı</label>
+                    <input type="text" class="form-control" asp-for="ActivityTitle" placeholder="Örn: Spa, Havuz, Oda Servisi" />
+                    <span asp-validation-for="ActivityTitle" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Hizmet Açıklaması</label>
+                    <textarea class="form-control" asp-for="ActivityDescription" rows="4" placeholder="Hizmetin detaylarını girin..."></textarea>
+                    <span asp-validation-for="ActivityDescription" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">İkon (HTML Etiketi)</label>
+                    <input type="text" class="form-control" asp-for="ActivityIcon" placeholder="Örn: <i class='fa-solid fa-spa'></i>" />
+                    <span asp-validation-for="ActivityIcon" class="text-danger"></span>
+                    <small class="form-text text-muted">
+                        <a href="https://fontawesome.com/icons" target="_blank">İkonu buradan seçebilirsiniz</a>
+                    </small>
+                </div>
+
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-check me-1"></i> Hizmeti Kaydet
+                </button>
+                <a asp-controller="HotelServ" asp-action="Index" class="btn btn-secondary ms-2">
+                    <i class="fas fa-arrow-left me-1"></i> Geri Dön
+                </a>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+﻿@model HotelWebUI.Dtos.SocialMediaDtos.ResultSocialMediaDto 
+@{
+    ViewData["Title"] = "UpdateSocialMedia";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+<div class="container mt-5">
+    <div class="card shadow rounded-4">
+        <div class="card-header bg-dark text-white rounded-top-4">
+            <h4><i class="fas fa-share-alt me-2"></i> Sosyal Medya Bilgileri</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="UpdateSocialMedia" method="post">   
+
+                <div class="mb-3">
+                    <label class="form-label"><i class="fab fa-instagram me-2 text-danger"></i>Instagram</label>
+                    <input type="text" class="form-control" asp-for="Instagram" placeholder="https://instagram.com/oteladi" />
+                    <span asp-validation-for="Instagram" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label"><i class="fab fa-facebook me-2 text-primary"></i>Facebook</label>
+                    <input type="text" class="form-control" asp-for="Facebook" placeholder="https://facebook.com/oteladi" />
+                    <span asp-validation-for="Facebook" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label"><i class="fab fa-twitter me-2 text-info"></i>Twitter</label>
+                    <input type="text" class="form-control" asp-for="Twitter" placeholder="https://twitter.com/oteladi" />
+                    <span asp-validation-for="Twitter" class="text-danger"></span>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save me-1"></i> Bilgileri Güncelle
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

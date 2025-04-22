@@ -1,0 +1,49 @@
+﻿@model List<HotelWebUI.Dtos.CommentDtos.ResultCommentDto>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="accordion" id="commentAccordion">
+        @foreach (var comment in Model)
+        {
+            <div class="accordion-item shadow-sm mb-3 rounded">
+                <h2 class="accordion-header" id="heading-@comment.CommentId">
+                    <button class="accordion-button collapsed d-flex justify-content-between" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@comment.CommentId" aria-expanded="false" aria-controls="collapse-@comment.CommentId">
+                        <div class="d-flex flex-column w-100">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <strong>@comment.CommentName</strong>
+                                <span class="badge bg-@(comment.CommentActivate ? "success" : "secondary")">
+                                    @(comment.CommentActivate ? "Aktif" : "Pasif")
+                                </span>
+                            </div>
+                            <small class="text-muted">@comment.CommentEmail | @comment.CommentDate.ToString("dd.MM.yyyy HH:mm")</small>
+                            <div>
+                                @for (int i = 0; i < comment.RatingRange; i++)
+                                {
+                                    <i class="fas fa-star text-warning"></i>
+                                }
+                            </div>
+                        </div>
+                    </button>
+                </h2>
+                <div id="collapse-@comment.CommentId" class="accordion-collapse collapse" aria-labelledby="heading-@comment.CommentId" data-bs-parent="#commentAccordion">
+                    <div class="accordion-body">
+                        <p>@comment.CommentMessage</p>
+                        <div class="mt-3 d-flex gap-2">
+                            <a href="/Comment/CommentActivate/@comment.CommentId" class="btn btn-sm btn-warning">
+                                <i class="fas fa-toggle-on"></i> Durum Değiştir
+                            </a>
+                            <a href="/Comment/DeleteComment/@comment.CommentId" class="btn btn-sm btn-danger">
+                                <i class="fas fa-trash"></i> Sil
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+

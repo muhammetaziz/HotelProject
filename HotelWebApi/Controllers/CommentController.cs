@@ -79,6 +79,19 @@ namespace HotelWebApi.Controllers
             }
             return Ok(values);
         }
+        [HttpGet("CommentActivate/{id}")]
+        public IActionResult CommentActivate(int id)
+        {
+            var values = _commentService.TGetById(id);
+            if (values == null)
+            {
+                return NotFound("Yorum bulunamadı.");
+            }
+            values.CommentActivate = !values.CommentActivate;
+            _commentService.TUpdate(values);
+            return Ok("Yorum durumu başarılı bir şekilde güncellendi.");
+        }
+
         #endregion
     }
 }

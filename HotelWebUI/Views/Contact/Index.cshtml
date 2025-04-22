@@ -1,0 +1,51 @@
+﻿@model List< HotelWebUI.Dtos.ContactDtos.ResultContactDto>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+@foreach (var item in Model)
+{
+
+<div class="container mt-5">
+    <div class="card shadow-sm border-0 rounded-4">
+        <div class="card-body p-4">
+            <h4 class="card-title mb-3"><i class="fas fa-address-book me-2"></i>İletişim Bilgileri</h4>
+            <br />
+            <br />
+
+            <div class="mb-3">
+                <strong><i class="fas fa-phone-alt me-2"></i>Telefon:</strong>
+                <span class="text-muted ms-2">@item.ContactNumber</span>
+            </div>
+
+            <div class="mb-3">
+                <strong><i class="fas fa-envelope me-2"></i>Email:</strong>
+                <span class="text-muted ms-2">@item.ContactEmail</span>
+            </div>
+
+            <div class="mb-3">
+                <strong><i class="fas fa-map-marker-alt me-2"></i>Adres:</strong>
+                <span class="text-muted ms-2">@item.ContactAdress</span>
+            </div>
+
+            <div class="mb-3">
+                <strong><i class="fas fa-info-circle me-2"></i>Açıklama:</strong>
+                <span class="text-muted ms-2">@item.ContactDescription</span>
+            </div>
+
+            <div class="mb-4">
+                <strong><i class="fas fa-map me-2"></i>Harita:</strong>
+                <div class="mt-2 rounded overflow-hidden">
+                    @Html.Raw(item.ContactMap)
+                </div>
+            </div>
+
+            <div class="text-end">
+                <a href="/Contact/UpdateContact/@item.ContactId" class="btn btn-primary">
+                    <i class="fas fa-edit me-1"></i>Güncelle
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+}

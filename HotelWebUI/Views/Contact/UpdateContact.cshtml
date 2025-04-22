@@ -1,0 +1,59 @@
+﻿@model HotelWebUI.Dtos.ContactDtos.ResultContactDto
+@{
+    ViewData["Title"] = "UpdateContact";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+<div class="container mt-5">
+    <div class="card shadow-sm border-0 rounded-4">
+        <div class="card-body p-4">
+            <h4 class="mb-4"><i class="fas fa-pen-to-square me-2"></i>İletişim Bilgilerini Güncelle</h4>
+
+            <form asp-action="UpdateContact" asp-controller="Contact" method="post">
+                <input type="hidden" asp-for="ContactId" />
+
+                <div class="mb-3">
+                    <label asp-for="ContactNumber" class="form-label"><i class="fas fa-phone-alt me-2"></i>Telefon</label>
+                    <input asp-for="ContactNumber" class="form-control" placeholder="Telefon numarası girin" />
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ContactEmail" class="form-label"><i class="fas fa-envelope me-2"></i>Email</label>
+                    <input asp-for="ContactEmail" type="email" class="form-control" placeholder="Email adresi girin" />
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ContactAdress" class="form-label"><i class="fas fa-map-marker-alt me-2"></i>Adres</label>
+                    <input asp-for="ContactAdress" class="form-control" placeholder="Adres girin" />
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ContactDescription" class="form-label"><i class="fas fa-info-circle me-2"></i>Açıklama</label>
+                    <textarea asp-for="ContactDescription" rows="3" class="form-control" placeholder="Kısa açıklama yazın"></textarea>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="ContactMap" class="form-label"><i class="fas fa-map me-2"></i>Google Maps Embed</label>
+                    <textarea asp-for="ContactMap" id="mapInput" rows="4" class="form-control" placeholder="<iframe>...</iframe>"></textarea>
+                    <div class="mt-3" id="mapPreview" style="min-height: 200px;">
+                        @Html.Raw(Model.ContactMap)
+                    </div>
+                </div>
+
+                <div class="text-end">
+                    <button type="submit" class="btn btn-success px-4">
+                        <i class="fas fa-save me-1"></i>Kaydet
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    const mapInput = document.getElementById('mapInput');
+    const mapPreview = document.getElementById('mapPreview');
+
+    mapInput.addEventListener('input', () => {
+        mapPreview.innerHTML = mapInput.value;
+    });
+</script>
