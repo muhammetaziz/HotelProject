@@ -1,4 +1,5 @@
 ﻿using HotelEntityLayer.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace HotelDataAccessLayer.Concrate
 {
-    public class HotelContext : DbContext
+    public class HotelContext : IdentityDbContext<AppUser , AppRole ,int>
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -45,7 +46,7 @@ namespace HotelDataAccessLayer.Concrate
                     ContactNumber = "123-456-7890"
                 });
 
-            
+
             modelBuilder.Entity<Home>().HasData(
                 new Home
                 {

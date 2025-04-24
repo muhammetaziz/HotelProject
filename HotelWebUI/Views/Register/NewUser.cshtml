@@ -1,0 +1,86 @@
+﻿@model HotelWebUI.Dtos.IdentityDtos.RegisterDto
+@{
+    ViewData["Title"] = "NewUser";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+
+<!-- Section: Design Block -->
+<section class="">
+    <!-- Jumbotron -->
+    <div class="px-4 py-5 px-md-5 text-center text-lg-start" style="background-color: hsl(0, 0%, 96%)">
+        <div class="container">
+            <div class="row gx-lg-5 align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <h1 class="my-5 display-3 fw-bold ls-tight">
+                        The best offer <br />
+                        <span class="text-primary">for your business</span>
+                    </h1>
+                    <p style="color: hsl(217, 10%, 50.8%)">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Eveniet, itaque accusantium odio, soluta, corrupti aliquam
+                        quibusdam tempora at cupiditate quis eum maiores libero
+                        veritatis? Dicta facilis sint aliquid ipsum atque?
+                    </p>
+                </div>
+
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <div class="card">
+                        <div class="card-body py-5 px-md-5">
+                            <form asp-action="NewUser" method="post">
+                                <!-- 2 column grid layout with text inputs for the first and last names -->
+                                <div class="row">
+                                    <div class="col-md-6 mb-4">
+                                        <div data-mdb-input-init class="form-outline">
+                                            <label class="form-label" for="form3Example1">Adınız</label>
+                                            <input asp-for="Name" type="text" id="form3Example1" class="form-control" />
+                                            <span asp-validation-for="Name" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <div data-mdb-input-init class="form-outline">
+                                            <label class="form-label" for="form3Example2">Soyadınız</label>
+                                            <input asp-for="Surname" type="text" id="form3Example2" class="form-control" />
+                                            <span asp-validation-for="Surname" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Email input -->
+                                <div data-mdb-input-init class="form-outline mb-4">
+                                    <label class="form-label" for="form3Example3">Kullanıcı Adı</label>
+                                    <input asp-for="UserName" type="text" id="form3Example3" class="form-control" />
+                                    <span asp-validation-for="UserName" class="text-danger"></span>
+                                </div>
+                                <div data-mdb-input-init class="form-outline mb-4">
+                                    <label class="form-label" for="form3Example3">E-Mail</label>
+                                    <input asp-for="Mail" type="email" id="form3Example3" class="form-control" />
+                                    <span asp-validation-for="Mail" class="text-danger"></span>
+                                </div> 
+                                <div class="row"> 
+                                    <div data-mdb-input-init class="form-outline mb-4 col-md-6">
+                                        <label class="form-label" for="form3Example4">Şifre</label>
+                                        <input asp-for="Password" type="password" id="form3Example4" class="form-control" />
+                                        <span asp-validation-for="Password" class="text-danger"></span>
+                                    </div>
+                                    <div data-mdb-input-init class="form-outline mb-4 col-md-6">
+                                        <label class="form-label" for="form3Example4">Şifre Tekrar</label>
+                                        <input asp-for="ConfirmPassword" type="password" id="form3Example4" class="form-control" />
+                                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                    </div>
+                                    <div asp-validation-summary="All" class="text-danger"></div>
+                                </div>
+                                <!-- Checkbox -->
+                                <!-- Submit button -->
+                                <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">
+                                    Kayıt Ol
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+

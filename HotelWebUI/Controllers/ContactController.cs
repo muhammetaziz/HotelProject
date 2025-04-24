@@ -13,8 +13,7 @@ namespace HotelWebUI.Controllers
         {
             _httpClientFactory = httpClientFactory;
         }
-
-
+         
         public async Task<IActionResult> Index()
         {
             var result = await _httpClientFactory.CreateClient().GetAsync("https://localhost:7219/api/Contact");
@@ -23,10 +22,8 @@ namespace HotelWebUI.Controllers
                 var jsonData = await result.Content.ReadAsStringAsync();
                 var values = JsonConvert.DeserializeObject<List<ResultContactDto>>(jsonData);
                 return View(values);
-            }
-
-            return View();
-
+            } 
+            return View(); 
         }
 
         [HttpGet]
@@ -55,6 +52,26 @@ namespace HotelWebUI.Controllers
                 return RedirectToAction("Index");
             }
             return View();
-        } 
+        }
+
+        #region UserController
+
+        public async Task< IActionResult> UserContact()
+        {
+            var result = await _httpClientFactory.CreateClient().GetAsync("https://localhost:7219/api/Contact");
+            if (result.IsSuccessStatusCode)
+            {
+                var jsonData = await result.Content.ReadAsStringAsync();
+                var values = JsonConvert.DeserializeObject<List<ResultContactDto>>(jsonData).FirstOrDefault();
+                if(values == null)
+                {
+                    return NotFound();
+                }
+                return View(values);
+            }
+            return NotFound();
+        }
+
+        #endregion
     }
 }
