@@ -1,0 +1,33 @@
+﻿@model HotelWebUI.Dtos.ContactDtos.ResultContactDto
+
+
+
+<div class="col-lg-4">
+    <div class="contact-text">
+        <h2>İletişim Bilgileri</h2>
+        <p>
+            @Model.ContactDescription
+        </p>
+        <table>
+            <tbody>
+                <tr>
+                    <td class="c-o">Adres:</td>
+                    <td>@Model.ContactAdress</td>
+                </tr>
+                <tr>
+                    <td class="c-o">Telefon:</td>
+                    <td>@Model.ContactNumber</td>
+                </tr>
+                <tr>
+                    <td class="c-o">E-mail:</td>
+                    <td>@Model.ContactEmail</td>
+                </tr>
+                <tr>
+                    <td class="c-o">Fax:</td>
+                    <td>+(12) 345 67890</td>
+                    <td hidden>fax alanı ekle</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

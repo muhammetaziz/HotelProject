@@ -10,6 +10,7 @@ namespace HotelEntityLayer.Entities
     {
         public int AboutId { get; set; }
         public string AboutDescription { get; set; } = null!;
+         
         public string Image1 { get; set; }=null!;
         public string Image2 { get; set; }= null!;
         public string Image3 { get; set; }=null!;

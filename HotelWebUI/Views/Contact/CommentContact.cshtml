@@ -1,0 +1,96 @@
+﻿@model HotelWebUI.Dtos.CommentDtos.CreateCommentDto
+@{
+    ViewData["Title"] = "CommentContact";
+    Layout = "~/Views/UserLayout/Index.cshtml";
+}
+
+<section class="contact-section spad">
+    <div class="container">
+        <div class="row">
+            @await Component.InvokeAsync("UserContactPageComponent")
+
+            <div class="col-lg-7 offset-lg-1">
+                <form asp-action="CommentContact" method="post" class="contact-form">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <span asp-validation-for="CommentName" class="text-danger"></span>
+                            <input type="text" asp-for="CommentName" placeholder="Ad Soyad">
+                        </div>
+                        <div class="col-lg-6">
+                            <span asp-validation-for="CommentEmail " class="text-danger"></span>
+                            <input type="text" asp-for="CommentEmail" placeholder="E-Mail">
+                        </div>
+
+
+                        <div class="col-lg-12">
+                            <span asp-validation-for="CommentMessage" class="text-danger"></span>
+                            <textarea asp-for="CommentMessage" placeholder="Yorumunuz"></textarea>
+                            <label hidden for="RatingRange">Puanlama:</label>
+                            <div id="starRating" style="font-size: 30px; color: gold; cursor: pointer;">
+                                <span data-value="1">☆</span>
+                                <span data-value="2">☆</span>
+                                <span data-value="3">☆</span>
+                                <span data-value="4">☆</span>
+                                <span data-value="5">☆</span>
+                            </div>
+                            <!-- Seçilen puanı formda göndermek için gizli alan -->
+                            <input type="hidden" asp-for="RatingRange" value="4" id="RatingRange" />
+                            <button type="submit">Submit Now</button>
+
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="map">
+            @Html.Raw(ViewBag.map)
+        </div>
+    </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@if (TempData["CommentSuccess"] != null && (bool)TempData["CommentSuccess"])
+{
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+            Swal.fire({
+                icon: 'success',
+                title: 'Teşekkürler!',
+                text: 'Yorumunuz başarıyla gönderildi.'
+            });
+
+            // Formu sıfırlama
+            const form = document.querySelector(".contact-form");
+            if (form) form.reset();
+
+            // Yıldızlar sıfırlansın
+            const stars = document.querySelectorAll("#starRating span");
+            stars.forEach(s => s.textContent = '☆');
+
+            // Gizli rating inputunu da sıfırla
+            const ratingInput = document.getElementById("RatingRange");
+            if (ratingInput) ratingInput.value = "";
+        });
+    </script>
+}
+
+<script>
+    // Yıldız puanlama sistemi
+    const stars = document.querySelectorAll("#starRating span");
+    const ratingInput = document.getElementById("RatingRange");
+
+    stars.forEach(star => {
+        star.addEventListener("click", () => {
+            const value = parseInt(star.getAttribute("data-value"));
+            ratingInput.value = value;
+
+            stars.forEach(s => {
+                const starValue = parseInt(s.getAttribute("data-value"));
+                s.textContent = starValue <= value ? '★' : '☆';
+            });
+        });
+    });
+</script>
+

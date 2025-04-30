@@ -1,6 +1,8 @@
-﻿using HotelWebUI.Dtos.ContactDtos;
+﻿using HotelWebUI.Dtos.CommentDtos;
+using HotelWebUI.Dtos.ContactDtos;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Net.Http;
 using System.Text;
 
 namespace HotelWebUI.Controllers
@@ -8,22 +10,19 @@ namespace HotelWebUI.Controllers
     public class ContactController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        public ContactController(IHttpClientFactory httpClientFactory) { _httpClientFactory = httpClientFactory; }
 
-        public ContactController(IHttpClientFactory httpClientFactory)
-        {
-            _httpClientFactory = httpClientFactory;
-        }
-         
+        #region AdminSide
         public async Task<IActionResult> Index()
         {
             var result = await _httpClientFactory.CreateClient().GetAsync("https://localhost:7219/api/Contact");
             if (result.IsSuccessStatusCode)
             {
                 var jsonData = await result.Content.ReadAsStringAsync();
-                var values = JsonConvert.DeserializeObject<List<ResultContactDto>>(jsonData);
+                var values = JsonConvert.DeserializeObject<List<ResultContactDto>>(jsonData) ; 
                 return View(values);
-            } 
-            return View(); 
+            }
+            return View();
         }
 
         [HttpGet]
@@ -54,22 +53,32 @@ namespace HotelWebUI.Controllers
             return View();
         }
 
-        #region UserController
+        #endregion
+        #region UserSideComment&Contact
 
-        public async Task< IActionResult> UserContact()
+        [HttpGet]
+        public IActionResult CommentContact()
         {
-            var result = await _httpClientFactory.CreateClient().GetAsync("https://localhost:7219/api/Contact");
-            if (result.IsSuccessStatusCode)
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CommentContact(CreateCommentDto createCommentDto)
+        { 
+            var client = _httpClientFactory.CreateClient();
+            var jsonData = JsonConvert.SerializeObject(createCommentDto);
+            StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
+            var responseMessage = await client.PostAsync("https://localhost:7219/api/Comment", stringContent); 
+            if (responseMessage.IsSuccessStatusCode)
             {
-                var jsonData = await result.Content.ReadAsStringAsync();
-                var values = JsonConvert.DeserializeObject<List<ResultContactDto>>(jsonData).FirstOrDefault();
-                if(values == null)
-                {
-                    return NotFound();
-                }
-                return View(values);
-            }
-            return NotFound();
+
+                TempData["CommentSuccess"] = true;
+                //await Task.Delay(3000);
+                //return RedirectToAction("Index","UserHome");
+                return View();
+            }  
+
+            return View();
         }
 
         #endregion

@@ -1,78 +1,75 @@
 ﻿@model HotelWebUI.Dtos.AboutDtos.ResultAboutDto
-    @if (Model==null)
-    {
-        <h1>model null</h1>
-    }
+@if (Model == null)
+{
+    <h1>model null</h1>
+}
 
-    @{
-        ViewData["Title"] = "UpdateAbout";
-        Layout = "~/Views/AdminLayout/Index.cshtml";
-    }
+@{
+    ViewData["Title"] = "UpdateAbout";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
 
-    <div class="card card-info card-outline mb-4">
-        <div class="card-header"><div class="card-title">Hakkımda yazısı güncelleme</div></div>
-        <form class="needs-validation" method="post">
-            <div class="card-body">
-                <div class="row g-3">
-                    <input @Model.AboutId hidden />
-                    <div class="col-md-6">
-                        <label for="validationCustom03" class="form-label">Hakkımda Yazısı</label>
-                        <textarea @Model.AboutDescription
-                                  placeholder="Hakkımda Yazısı"
-                                  rows="5"
-                                  type="text"
-                                  class="form-control"
-                                  id="validationCustom03"
-                                  required>@Model.AboutDescription</textarea>
-                        <div class="invalid-feedback">Please provide a valid city.</div>
-                        <span asp-validation-for="AboutDescription" class="text-danger"></span>
-                    </div>
 
-                    <div class="input-group mb-3">
-                        <input @Model.Image1 type="file" class="form-control" id="inputGroupFile02" />
-                        <label class="input-group-text" for="inputGroupFile02">1.Görsel</label>
-                    </div>
-                    <div class="input-group mb-3">
-                        <input @Model.Image2 type="file" class="form-control" id="inputGroupFile02" />
-                        <label class="input-group-text" for="inputGroupFile02">2.Görsel</label>
-                    </div>
-                    <div class="input-group mb-3">
-                        <input @Model.Image3 type="file" class="form-control" id="inputGroupFile02" />
-                        <label class="input-group-text" for="inputGroupFile02">3.Görsel</label>
-                    </div>
-                    <div asp-validation-summary="All"> </div>
+<body>
+    <div class="container mt-5">
+        <h3>@ViewData["Title"]</h3>
+
+        <form method="post" enctype="multipart/form-data" asp-action="UpdateAbout" asp-controller="About">
+            <div class="mb-3">
+                <label for="aboutDescription" class="form-label">Hakkımızda Açıklaması</label>
+                <textarea class="form-control" id="aboutDescription" name="AboutDescription" rows="5">@Model.AboutDescription</textarea>
+            </div>
+
+            <input type="text" class="form-control" value="@Model.AboutId" disabled/>
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="imageFile1" class="form-label">Resim 1</label>
+                    <input type="file" class="form-control" id="imageFile1" name="ImageFile1" accept="image/*" />
+                    <img id="image1Preview" src="@Model.Image1" alt="Resim 1 Önizleme" class="img-fluid mt-2" style="max-height: 200px;" />
+                </div>
+
+                <div class="col-md-4">
+                    <label for="imageFile2" class="form-label">Resim 2</label>
+                    <input type="file" class="form-control" id="imageFile2" name="ImageFile2" accept="image/*" />
+                    <img id="image2Preview" src="@Model.Image2" alt="Resim 2 Önizleme" class="img-fluid mt-2" style="max-height: 200px;" />
+                </div>
+
+                <div class="col-md-4">
+                    <label for="imageFile3" class="form-label">Resim 3</label>
+                    <input type="file" class="form-control" id="imageFile3" name="ImageFile3" accept="image/*" />
+                    <img id="image3Preview" src="@Model.Image3" alt="Resim 3 Önizleme" class="img-fluid mt-2" style="max-height: 200px;" />
                 </div>
             </div>
-            <div class="card-footer">
-                <button class="btn btn-info" type="submit">Güncelle</button>
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary">Güncelle</button>
             </div>
         </form>
-
-        <script>
-
-            (() => {
-                'use strict';
-
-                // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                const forms = document.querySelectorAll('.needs-validation');
-
-                // Loop over them and prevent submission
-                Array.from(forms).forEach((form) => {
-                    form.addEventListener(
-                        'submit',
-                        (event) => {
-                            if (!form.checkValidity()) {
-                                event.preventDefault();
-                                event.stopPropagation();
-                            }
-
-                            form.classList.add('was-validated');
-                        },
-                        false,
-                    );
-                });
-            })();
-        </script>
-        <!--end::JavaScript-->
     </div>
 
+    <script>
+        document.getElementById("imageFile1").addEventListener("change", function (event) {
+            const reader = new FileReader();
+            reader.onload = function () {
+                document.getElementById("image1Preview").src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        });
+
+        document.getElementById("imageFile2").addEventListener("change", function (event) {
+            const reader = new FileReader();
+            reader.onload = function () {
+                document.getElementById("image2Preview").src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        });
+
+        document.getElementById("imageFile3").addEventListener("change", function (event) {
+            const reader = new FileReader();
+            reader.onload = function () {
+                document.getElementById("image3Preview").src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        });
+    </script>
+</body>
