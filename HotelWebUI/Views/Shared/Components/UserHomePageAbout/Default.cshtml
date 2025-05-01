@@ -1,0 +1,30 @@
+﻿@model HotelWebUI.Dtos.AboutDtos.ResultAboutDto
+
+<section class="aboutus-section spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="about-text">
+                    <div class="section-title">
+                        <span>Hakkımızda</span>
+                        <h2>Hotel İSTİKLAL</h2>
+                    </div>
+                    <p class="f-para">@Model.AboutDescription.Substring(1,100) ... </p>
+                    <a href="#" class="primary-btn about-btn">Keşfet</a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="about-pic">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <img src="https://localhost:7219/@Model.Image1" alt="">
+                        </div>
+                        <div class="col-sm-6">
+                            <img src="https://localhost:7219/@Model.Image2" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

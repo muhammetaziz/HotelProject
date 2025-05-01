@@ -1,0 +1,36 @@
+﻿@model List<HotelWebUI.Dtos.RoomTypeDtos.ResultRoomTypeDto>
+
+@{
+    ViewData["Title"] = "RoomList";
+    Layout = "~/Views/UserLayout/Index.cshtml";
+}
+
+
+<h2>Uygun Odalar</h2>
+
+@if (!Model.Any())
+{
+    <p>Uygun oda bulunamadı.</p>
+}
+else
+{
+    <div class="row">
+        @foreach (var room in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Kapasite: @room.Capacity Kişi</h5>
+                        <p class="card-text">@room.Description</p>
+                        <p>Fiyat: ₺@room.PricePerNight / Gece</p>
+                        <form asp-action="EnterGuestInfo" asp-controller="Reservation" method="post">
+                            <input type="hidden" name="RoomTypeId" value="@room.RoomTypeId" />
+                            <input type="number" name="Quantity" min="1" max="@room.AvailableRoomCount" placeholder="Kaç oda?" required class="form-control mb-2" />
+                            <button type="submit" class="btn btn-primary">Bu Odayı Seç</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

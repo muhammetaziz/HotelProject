@@ -1,0 +1,31 @@
+﻿@model HotelWebUI.Dtos.ReservationDtos.ReservationInfoDto
+
+@{
+    ViewData["Title"] = "EnterGuestInfo";
+    Layout = "~/Views/UserLayout/Index.cshtml";
+}
+
+<h2>Misafir Bilgileri</h2>
+
+<form asp-action="ConfirmReservation" method="post">
+    <input type="hidden" asp-for="RoomTypeId" />
+    <input type="hidden" asp-for="Quantity" />
+    <input type="hidden" asp-for="CheckInDate" />
+    <input type="hidden" asp-for="CheckOutDate" />
+    <input type="hidden" asp-for="TotalPeople" />
+
+    <div class="form-group">
+        <label>Ad Soyad</label>
+        <input asp-for="FullName" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label>Email</label>
+        <input asp-for="Email" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label>Telefon</label>
+        <input asp-for="Phone" class="form-control" required />
+    </div>
+    <br />
+    <button type="submit" class="btn btn-success">Devam Et</button>
+</form>

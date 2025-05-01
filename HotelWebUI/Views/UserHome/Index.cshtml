@@ -3,6 +3,49 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/UserLayout/Index.cshtml";
 }
+<section class="hero-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="hero-text">
+                    <h1>İstiklal Hotel</h1>
+                    <p>
+                        Here are the best hotel booking sites, including recommendations for international
+                        travel and for finding low-priced hotel rooms.
+                    </p>
+                    <a href="#" class="primary-btn">Şimdi keşfet</a>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-5 offset-xl-2 offset-lg-1">
+                <div class="booking-form">
+                    <h3>Booking Your Hotel</h3>
+                    <form asp-action="Index" method="post" asp-controller="UserHome">
+                        <div class="check-date">
+                            <label for="date-in">Giriş :</label>
+                            <input type="text" class="date-input" name="CheckInDate" id="date-in">
+                            <i class="icon_calendar"></i>
+                        </div>
+                        <div class="check-date">
+                            <label for="date-out">Çıkış:</label>
+                            <input type="text" class="date-input" name="CheckOutDate" id="date-out">
+                            <i class="icon_calendar"></i>
+                        </div>
+                        <input type="number" name="AdultCount" min="1" required placeholder="Yetişkin" />
+                        <input type="number" name="ChildCount" min="0" placeholder="Çocuk" />
+
+                         
+                        <button type="submit">Check Availability</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hero-slider owl-carousel">
+        <div class="hs-item set-bg" data-setbg="img/hero/hero-1.jpg"></div>
+        <div class="hs-item set-bg" data-setbg="img/hero/hero-2.jpg"></div>
+        <div class="hs-item set-bg" data-setbg="img/hero/hero-3.jpg"></div>
+    </div>
+</section>
+@await Component.InvokeAsync("UserHomePageAbout");
 @await Component.InvokeAsync("UserHomePageServicesComponent");
- 
 @await Component.InvokeAsync("UserHomePageTestimonialComponent");

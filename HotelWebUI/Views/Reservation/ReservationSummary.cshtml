@@ -1,0 +1,20 @@
+﻿@model HotelWebUI.Dtos.ReservationDtos.ReservationSummaryDto
+
+@{
+    ViewData["Title"] = "ReservationSummary";
+    Layout = "~/Views/UserLayout/Index.cshtml";
+}
+
+<h2>Rezervasyon Özeti</h2>
+<p>@Model.FullName</p>
+<p>@Model.Email</p>
+<p>@Model.Phone</p>
+<p>Oda Tipi: @Model.RoomTypeName</p>
+<p>Giriş Tarihi: @Model.CheckInDate.ToShortDateString()</p>
+<p>Çıkış Tarihi: @Model.CheckOutDate.ToShortDateString()</p>
+<p>Toplam Fiyat: @Model.TotalPrice.ToString("C")</p>
+
+<form asp-action="CompleteReservation" method="post">
+    <input type="hidden" name="ReservationDataJson" value='@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model))' />
+    <button type="submit">Rezervasyonu Tamamla</button>
+</form>

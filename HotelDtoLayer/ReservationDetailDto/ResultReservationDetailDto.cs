@@ -9,14 +9,13 @@ namespace HotelDtoLayer.ReservationDetailDto
 {
     public class ResultReservationDetailDto
     {
-        public int ReservationDetailId { get; set; }
+        //public int ReservationDetailId { get; set; }
 
-        public int ReservationId { get; set; }
+        //public int ReservationId { get; set; }
        
 
         public int RoomTypeId { get; set; }
         
-        public int Quantity { get; set; } // Kaç tane odayı rezerve etti
-        public decimal SubTotal { get; set; } // Bu oda tipinden toplam tutar
+        public int Quantity { get; set; } // Kaç tane odayı rezerve etti 
     }
 }

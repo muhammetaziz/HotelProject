@@ -27,7 +27,6 @@ namespace HotelWebApi.Controllers
             return Ok(values);
         }
 
-
         [HttpPost]
         public IActionResult CreateContact(CreateContactDto createContactDto)
         {
@@ -40,6 +39,14 @@ namespace HotelWebApi.Controllers
                 ContactNumber = createContactDto.ContactNumber
             });
 
+            //Bu kısımda yeni bir iletişim bilgisi eklenirken, var olan iletişim bilgileri silinmektedir.
+            //Bu, sistemde yalnızca bir iletişim bilgisinin bulunmasını sağlamak için yapılmaktadır.
+
+            var existingAbout = _contactService.TGetListAll().FirstOrDefault();
+            if (existingAbout != null)
+            {
+                _contactService.TDelete(existingAbout);
+            }
             return Ok("İletişim başarılı bir şekilde eklendi.");
         }
         [HttpDelete("{id}")]

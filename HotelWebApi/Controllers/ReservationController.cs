@@ -67,7 +67,7 @@ namespace HotelWebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateReservation([FromBody] CreateReservationDto dto)
+        public IActionResult CreateReservation([FromBody] CreateReservationDto dto)
         {
             decimal totalPrice = 0;
             var reservationDetails = new List<ReservationDetail>();

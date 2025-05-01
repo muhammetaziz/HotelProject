@@ -19,7 +19,7 @@ namespace HotelDtoLayer.ReservationDto
         public int TotalPeople { get; set; }
         public decimal TotalPrice { get; set; }
 
-        public string Status { get; set; } = "Paid";  
+        public string Status { get; set; }  
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public ICollection<ResultReservationDetailDto> resultReservationDetailDtos { get; set; }
 
