@@ -1,6 +1,7 @@
 ﻿using HotelBusinessLayer.Abstract;
 using HotelDataAccessLayer.Abstract;
 using HotelEntityLayer.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,11 @@ namespace HotelBusinessLayer.Concrete
         public ReservationManager(IReservationDal reservationDal)
         {
             _reservationDal = reservationDal;
+        }
+
+        public List<Reservation> GetListReservationWithDetails()
+        {
+            return _reservationDal.GetListReservationWithDetails();
         }
 
         public void TDelete(Reservation entity)

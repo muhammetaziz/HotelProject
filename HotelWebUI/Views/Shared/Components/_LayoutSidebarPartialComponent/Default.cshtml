@@ -2,7 +2,7 @@
     <div class="sidebar-brand" style="min-height:110px">
         <a href="./index.html" class="brand-link">
             <img style="border-radius:54%;min-width:100px;min-height:100px"
-                 src="~/Fotograflar/logo2.png"  
+                 src="~/Fotograflar/logo2.png"
                  alt="AdminLTE Logo"
                  class="brand-image opacity-75 shadow" />
             <span class="brand-text fw-light">Hotel İstiklal</span>
@@ -13,71 +13,102 @@
             <ul class="nav sidebar-menu flex-column"
                 data-lte-toggle="treeview"
                 role="menu"
-                data-accordion="false">
-                
+                data-accordion="false">  
                 <li class="nav-item">
-                    <a href="/About/Index/" class="nav-link">
+                    <a href="/Home/Index/" class="nav-link">
                         <i class="nav-icon bi bi-palette"></i>
-                        <p>Hakkımda Sayfası</p>
+                        <p>Ana Sayfa</p>
+                    </a>
+                </li> 
+                @*burası admin paneli için*@
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon bi bi-tree-fill"></i>
+                        <p>
+                            Sayfalar
+                            <i class="nav-arrow bi bi-chevron-right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/About/Index/" class="nav-link">
+                                <i class="nav-icon bi bi-circle"></i>
+                                <p>Hakkımızda</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Photos/Index/" class="nav-link">
+                                <i class="nav-icon bi bi-circle"></i>
+                                <p>Galeri</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Contact/Index/" class="nav-link">
+                                <i class="nav-icon bi bi-circle"></i>
+                                <p>İletişim</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon bi bi-tree-fill"></i>
+                        <p>
+                            Rezervasyon&Odalar
+                            <i class="nav-arrow bi bi-chevron-right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/AdminReservation/Index/" class="nav-link">
+                                <i class="nav-icon bi bi-circle"></i>
+                                <p>Rezervasyonlar</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/RoomType/Index/" class="nav-link">
+                                <i class="nav-icon bi bi-circle"></i>
+                                <p>Odalar</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="/HotelServ/Index" class="nav-link">
+                        <i class="nav-icon bi bi-palette"></i>
+                        <p>Hizmetler</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/Comment/Index/" class="nav-link">
+                    <a href="/Comment/Index" class="nav-link">
                         <i class="nav-icon bi bi-palette"></i>
                         <p>Yorumlar</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/Contact/Index" class="nav-link">
-                        <i class="nav-icon bi bi-palette"></i>
-                        <p>İletişim</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/About/Index/" class="nav-link">
-                        <i class="nav-icon bi bi-palette"></i>
-                        <p>Ana Sayfa</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/HotelServ/Index" class="nav-link">
-                        <i class="nav-icon bi bi-palette"></i>
-                        <p>Otel Hizmetleri</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/SocialMedia/Index/" class="nav-link">
+                    <a href="/SocialMedia/Index" class="nav-link">
                         <i class="nav-icon bi bi-palette"></i>
                         <p>Sosyal Medya</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="./generate/theme.html" class="nav-link">
-                        <i class="nav-icon bi bi-palette"></i>
-                        <p>Odalar</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/Reservation/Index/" class="nav-link">
-                        <i class="nav-icon bi bi-palette"></i>
-                        <p>Rezervasyonlar</p>
-                    </a>
-                </li> 
-                <li class="nav-item">
                     <a href="/Register/Index/" class="nav-link">
                         <i class="nav-icon bi bi-palette"></i>
                         <p>Kullanıcı İşlemleri</p>
                     </a>
-                </li> 
-
+                </li>
                 <li class="nav-item">
-                    <a href="/UserArea/Contact/Index" class="nav-link">
+                    <a href="/Home/Support/" class="nav-link">
+                        <i class="nav-icon bi bi-palette"></i>
+                        <p>Destek</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/UserHome/Index" class="nav-link">
                         <i class="nav-icon bi bi-palette"></i>
                         <p>Çıkış</p>
                     </a>
-                </li> 
-
-
+                </li>
 
             </ul>
         </nav>

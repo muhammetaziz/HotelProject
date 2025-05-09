@@ -16,8 +16,8 @@ namespace HotelDtoLayer.ReservationDto
         public DateTime CheckInDate { get; set; }
         public DateTime CheckOutDate { get; set; }
         public int TotalPeople { get; set; }
-        public decimal TotalPrice { get; set; } 
-        public string Status { get; set; } 
-        public DateTime CreatedDate { get; set; } = DateTime.Now;  
+        //public decimal TotalPrice { get; set; } 
+        //public string Status { get; set; } 
+        //public DateTime CreatedDate { get; set; } = DateTime.Now;  
     }
 }

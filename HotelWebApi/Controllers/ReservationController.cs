@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
 using HotelBusinessLayer.Abstract;
 using HotelDtoLayer.ContactDto;
+using HotelDtoLayer.ReservationDetailDto;
 using HotelDtoLayer.ReservationDto;
 using HotelEntityLayer.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.EntityFrameworkCore;
 namespace HotelWebApi.Controllers
 {
     [Route("api/[controller]")]
@@ -30,8 +31,7 @@ namespace HotelWebApi.Controllers
             return Ok(values);
         }
 
-        [HttpDelete("{id}")]
-
+        [HttpDelete("{id}")]  
         public IActionResult DeleteReservation(int id)
         {
             var values = _reservationService.TGetById(id);
@@ -69,6 +69,10 @@ namespace HotelWebApi.Controllers
         [HttpPost]
         public IActionResult CreateReservation([FromBody] CreateReservationDto dto)
         {
+            if (dto.CheckOutDate <= dto.CheckInDate)
+                return BadRequest("Çıkış tarihi, giriş tarihinden sonra olmalıdır.");
+
+            int totalNights = (dto.CheckOutDate - dto.CheckInDate).Days;
             decimal totalPrice = 0;
             var reservationDetails = new List<ReservationDetail>();
 
@@ -81,14 +85,14 @@ namespace HotelWebApi.Controllers
                 if (room.AvailableRoomCount < detail.Quantity)
                     return BadRequest($"Yeterli oda yok. RoomTypeID: {detail.RoomTypeId}");
 
-                decimal subTotal = room.PricePerNight * detail.Quantity;
+                decimal subTotal = room.PricePerNight * detail.Quantity * totalNights;
                 totalPrice += subTotal;
 
                 reservationDetails.Add(new ReservationDetail
                 {
                     RoomTypeId = detail.RoomTypeId,
                     Quantity = detail.Quantity,
-                    SubTotal = subTotal
+                    SubTotal = subTotal,
                 });
 
                 // Oda stoğundan düş
@@ -113,6 +117,67 @@ namespace HotelWebApi.Controllers
             _reservationService.TInsert(reservation);
 
             return Ok("Rezervasyon başarıyla oluşturuldu.");
+        }
+
+        [HttpGet("withdetails")]
+        public IActionResult ListReservationsWithDetails()
+        {
+            var reservations = _reservationService.GetListReservationWithDetails();
+
+            var result = reservations.Select(r => new
+            {
+                r.ReservationId,
+                r.FullName,
+                r.Email,
+                r.Phone,
+                r.CheckInDate,
+                r.CheckOutDate,
+                r.TotalPeople,
+                r.TotalPrice,
+                r.Status,
+                r.CreatedDate,
+                ReservationDetails = r.ReservationDetails.Select(d => new
+                {
+                    d.ReservationDetailId,
+                    d.RoomTypeId,
+                    RoomTypeName = d.RoomType.Description,
+                    d.Quantity,
+                    d.SubTotal
+                }).ToList()
+            }).ToList();
+
+            return Ok(result);
+        }
+        [HttpGet("details/{id}")]
+        public IActionResult ListReservationWithDetailsById(int id)
+        {
+            var reservation = _reservationService.GetListReservationWithDetails().FirstOrDefault(x=>x.ReservationId==id);
+            if (reservation == null)
+                return NotFound("Rezervasyon bulunamadı.");
+
+            var dto = new ReservationWithDetailsDto
+            {
+                ReservationId = reservation.ReservationId,
+                FullName = reservation.FullName,
+                Email = reservation.Email,
+                Phone = reservation.Phone,
+                CheckInDate = reservation.CheckInDate,
+                CheckOutDate = reservation.CheckOutDate,
+                TotalPeople = reservation.TotalPeople,
+                TotalPrice = reservation.TotalPrice,
+                Status = reservation.Status,
+                CreatedDate = reservation.CreatedDate,
+                ReservationDetails = reservation.ReservationDetails.Select(rd => new ReservationDetailAdminDto
+                {
+                    RoomTypeId = rd.RoomTypeId,
+                    RoomTypeName = rd.RoomType?.Description,
+                    PricePerNight = rd.RoomType?.PricePerNight ?? 0,
+                    Quantity = rd.Quantity,
+                    SubTotal = rd.SubTotal
+                }).ToList()
+            };
+
+            return Ok(dto);
         }
     }
 }

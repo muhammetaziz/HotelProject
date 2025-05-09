@@ -9,5 +9,6 @@ namespace HotelBusinessLayer.Abstract
 {
     public interface IReservationService:IGenericService<Reservation>
     {
+        List<Reservation> GetListReservationWithDetails();
     }
 }

@@ -9,5 +9,6 @@ namespace HotelDataAccessLayer.Abstract
 {
     public interface IReservationDal:IGenericDal<Reservation>
     {
+         List<Reservation> GetListReservationWithDetails();
     }
 }

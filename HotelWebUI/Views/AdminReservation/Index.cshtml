@@ -1,0 +1,42 @@
+﻿@model List< HotelWebUI.Dtos.ReservationDtos.AdmınReservationListDto>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+  
+<h2>Rezervasyonlar</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Durum</th>
+            
+            @*<th>Rezervasyon Kodu</th>*@
+            <th>Rezervasyon Tarihi</th>
+            <th>Giriş Tarihi</th>
+            <th>Çıkış Tarihi</th>
+            <th>Misafir</th>
+            <th>Tutar</th>
+            <th>Ödeme Tipi</th>
+            <th>İşlem</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td><span class="badge bg-success">Başarılı</span></td> 
+                @*<td>@item.ReservationCode</td>*@
+                <td>@item.CreatedDate.ToString("dd.MM.yyyy HH:mm")</td>
+                <td>@item.CheckInDate.ToString("dd.MM.yyyy")</td>
+                <td>@item.CheckOutDate.ToString("dd.MM.yyyy")</td>
+                <td>@item.FullName</td> 
+                <td>@item.TotalPrice.ToString("N0") ₺</td>
+                <td><span class="text-success">Ödendi</span></td>
+                <td>
+                    <a href="/AdminReservation/Detail/@item.ReservationId" class="btn btn-sm btn-warning">Detaylar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

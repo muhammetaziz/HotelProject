@@ -8,5 +8,6 @@ namespace HotelWebUI.Controllers
         {
             return View();
         }
+        
     }
 }

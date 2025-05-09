@@ -88,9 +88,9 @@ namespace HotelDataAccessLayer.Concrate
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<ReservationDetail> ReservationDetails { get; set; }
         public DbSet<RoomType> RoomTypes { get; set; }
-        //public DbSet<HotelService> HotelServices { get; set; }
         public DbSet<HotelServ> HotelServs { get; set; }
         public DbSet<SocialMedia> SocialMedias { get; set; }
+        public DbSet<RoomAvailability> RoomAvailabilities { get; set; }
 
     }
 }

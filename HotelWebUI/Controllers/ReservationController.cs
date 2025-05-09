@@ -16,6 +16,14 @@ namespace HotelWebUI.Controllers
         }
         public IActionResult Index()
         {
+            var client = _httpClientFactory.CreateClient();
+            var response = client.GetAsync("https://localhost:7219/api/Reservation").Result;
+            if (!response.IsSuccessStatusCode)
+            {
+                ModelState.AddModelError("", "Oda bilgileri alınamadı.");
+                return View("Error");
+            }
+            var jsonData = response.Content.ReadAsStringAsync().Result;
             return View();
         }
 
@@ -113,6 +121,7 @@ namespace HotelWebUI.Controllers
 
             var summary = JsonConvert.DeserializeObject<ReservationSummaryDto>(ReservationDataJson);
 
+            // Sadece gerekli alanları doldur
             var createDto = new CreateReservationDto
             {
                 FullName = summary.FullName,
@@ -140,11 +149,10 @@ namespace HotelWebUI.Controllers
                 return RedirectToAction("ThankYou");
             }
 
-            // hata varsa tekrar aynı view'a dön
+            // Hata varsa tekrar aynı view'a dön
             ViewBag.Error = "Rezervasyon sırasında bir hata oluştu.";
             return View("ReservationSummary", summary);
         }
-
         public IActionResult ThankYou()
         {
             return View();

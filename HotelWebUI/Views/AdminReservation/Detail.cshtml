@@ -1,0 +1,44 @@
+﻿@model HotelWebUI.Dtos.ReservationDtos.ResultReservationWithDetailDto
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+} 
+
+<h2>Rezervasyon Detayı</h2>
+
+<div>
+    <strong>Ad Soyad:</strong> @Model.FullName<br />
+    <strong>Email:</strong> @Model.Email<br />
+    <strong>Telefon:</strong> @Model.Phone<br />
+    <strong>Giriş Tarihi:</strong> @Model.CheckInDate.ToShortDateString()<br />
+    <strong>Çıkış Tarihi:</strong> @Model.CheckOutDate.ToShortDateString()<br />
+    <strong>Kişi Sayısı:</strong> @Model.TotalPeople<br />
+    <strong>Toplam Tutar:</strong> @Model.TotalPrice ₺<br />
+    <strong>Durum:</strong> @Model.Status<br />
+</div>
+
+<hr />
+
+<h4>Oda Detayları</h4>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Oda Tipi</th>
+            <th>Gecelik Fiyat</th>
+            <th>Adet</th>
+            <th>Ara Toplam</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ReservationDetails)
+        {
+            <tr>
+                <td>@item.RoomTypeName</td>
+                <td>@item.PricePerNight ₺</td>
+                <td>@item.Quantity</td>
+                <td>@item.SubTotal ₺</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

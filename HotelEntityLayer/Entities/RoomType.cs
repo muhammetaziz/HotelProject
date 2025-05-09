@@ -13,6 +13,7 @@ namespace HotelEntityLayer.Entities
         public decimal PricePerNight { get; set; } // Gecelik fiyat
         public int AvailableRoomCount { get; set; } // Şu an müsait kaç tane var
         public string? Description { get; set; }
+        public string? ImageUrl { get; set; } // Oda resmi
 
         public ICollection<ReservationDetail>? ReservationDetails { get; set; }
     }
