@@ -18,12 +18,17 @@ builder.Services.AddCors(options =>
         .AllowAnyMethod();
     });
 });
+builder.Services.AddHangfire(config =>
+    config.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+          .UseSimpleAssemblyNameTypeSerializer()
+          .UseDefaultTypeSerializer()
+          .UseSqlServerStorage("Server=MUHAMMETAZIZ\\SQLEXPRESS;Database=HotelDb;Integrated Security=true;TrustServerCertificate=True;"));
+
+builder.Services.AddHangfireServer();
 #region ClassMapping
 
 builder.Services.AddDbContext<HotelContext>();
-builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
-
-
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly()); 
 
 builder.Services.AddScoped<IAboutService, AboutManager>();
 builder.Services.AddScoped<IAboutDal, EfAboutDal>();
@@ -58,14 +63,11 @@ builder.Services.AddScoped<IRoomAvailabilityDal, EfRoomAvailabilityDal>();
 
 #endregion
 
- 
+builder.Services.AddScoped<RoomAvailabilityJob>();
+
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-builder.Services.AddHangfire(x => x.UseSqlServerStorage("YourConnectionString"));
-builder.Services.AddHangfireServer();
 
 
 var app = builder.Build();
@@ -81,7 +83,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseHangfireDashboard(); // Opsiyonel: Dashboard’a eriþmek için
- 
+RecurringJob.AddOrUpdate<RoomAvailabilityJob>(
+   "daily-room-availability",
+   job => job.CreateTomorrowAvailability(),
+   Cron.Daily(3));
 app.UseStaticFiles();
 app.UseHttpsRedirection();
 

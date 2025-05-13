@@ -11,5 +11,9 @@ namespace HotelBusinessLayer.Abstract
     {
         List<RoomAvailability> GetByDateRange(DateTime startDate, DateTime endDate);
         RoomAvailability GetByRoomTypeAndDate(int roomTypeId, DateTime date);
+        bool Exists(int roomTypeId, DateTime date);
+        List<RoomType> GetAllRoomTypes();
+
     }
 }
+    

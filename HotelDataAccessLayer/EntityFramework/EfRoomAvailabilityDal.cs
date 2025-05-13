@@ -17,6 +17,7 @@ namespace HotelDataAccessLayer.EntityFramework
         {
         }
 
+
         public List<RoomAvailability> GetByDateRange(DateTime startDate, DateTime endDate)
         {
             using var context = new HotelContext();

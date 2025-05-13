@@ -12,11 +12,25 @@ namespace HotelBusinessLayer.Concrete
     public class RoomAvailabilityManager : IRoomAvailabilityService
     {
         private readonly IRoomAvailabilityDal _roomAvailabilityDal;
+        private readonly IRoomTypeDal _roomTypeDal;
 
-        public RoomAvailabilityManager(IRoomAvailabilityDal roomAvailabilityDal)
+        public RoomAvailabilityManager(IRoomAvailabilityDal roomAvailabilityDal, IRoomTypeDal roomTypeDal)
         {
             _roomAvailabilityDal = roomAvailabilityDal;
+            _roomTypeDal = roomTypeDal;
         }
+
+        public bool Exists(int roomTypeId, DateTime date)
+        {
+            var all = _roomAvailabilityDal.GetListAll();
+            return all.Any(x => x.RoomTypeId == roomTypeId && x.Date.Date == date.Date);
+        }
+
+        public List<RoomType> GetAllRoomTypes()
+        {
+            return _roomTypeDal.GetListAll();
+        }
+
         public List<RoomAvailability> GetByDateRange(DateTime startDate, DateTime endDate)
         {
 
@@ -26,6 +40,7 @@ namespace HotelBusinessLayer.Concrete
 
         public RoomAvailability GetByRoomTypeAndDate(int roomTypeId, DateTime date)
         {
+            //return _roomAvailabilityDal.GetListAll().FirstOrDefault(x=>x.RoomTypeId== roomTypeId && x.Date.Date == date.Date);
             return _roomAvailabilityDal.GetByRoomTypeAndDate(roomTypeId, date);
         }
 
