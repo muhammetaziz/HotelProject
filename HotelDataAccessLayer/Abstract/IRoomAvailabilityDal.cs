@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace HotelDataAccessLayer.Abstract
 {
-    public interface  IRoomAvailabilityDal:IGenericDal<RoomAvailability>
+    public interface IRoomAvailabilityDal : IGenericDal<RoomAvailability>
     {
         List<RoomAvailability> GetByDateRange(DateTime startDate, DateTime endDate);
         RoomAvailability GetByRoomTypeAndDate(int roomTypeId, DateTime date);
-       
-
+        public List<RoomType> GetAvailableRoomTypes(DateTime checkIn, DateTime checkOut, int personCount);
+        public List<RoomAvailability> GetByRoomTypeAndDateRange(int roomTypeId, DateTime startDate, DateTime endDate);
     }
+         
 }

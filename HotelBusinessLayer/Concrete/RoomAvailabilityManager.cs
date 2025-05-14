@@ -31,6 +31,11 @@ namespace HotelBusinessLayer.Concrete
             return _roomTypeDal.GetListAll();
         }
 
+        public List<RoomType> GetAvailableRoomTypes(DateTime checkIn, DateTime checkOut, int personCount)
+        {
+            return _roomAvailabilityDal.GetAvailableRoomTypes(checkIn, checkOut, personCount);
+        }
+
         public List<RoomAvailability> GetByDateRange(DateTime startDate, DateTime endDate)
         {
 
@@ -42,6 +47,11 @@ namespace HotelBusinessLayer.Concrete
         {
             //return _roomAvailabilityDal.GetListAll().FirstOrDefault(x=>x.RoomTypeId== roomTypeId && x.Date.Date == date.Date);
             return _roomAvailabilityDal.GetByRoomTypeAndDate(roomTypeId, date);
+        }
+
+        public List<RoomAvailability> GetByRoomTypeAndDateRange(int roomTypeId, DateTime startDate, DateTime endDate)
+        {
+            return _roomAvailabilityDal.GetByRoomTypeAndDateRange(roomTypeId, startDate, endDate);
         }
 
         public void TDelete(RoomAvailability entity)

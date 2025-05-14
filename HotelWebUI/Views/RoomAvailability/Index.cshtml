@@ -4,54 +4,114 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/AdminLayout/Index.cshtml";
 }
+<h2 class="mb-4 fw-bold text-primary">Fiyat ve Müsaitlik</h2>
 
-<h2>Fiyat ve Müsaitlik</h2>
-
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Oda Tipi</th>
-            @foreach (var date in Model.Dates)
-            {
-                <th>@date.ToString("dd MMM ddd")</th>
-            }
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var room in Model.RoomTypes)
-        {
+<div class="table-responsive">
+    <table class="table table-bordered  align-middle shadow rounded-4 overflow-hidden">
+        <thead class="table-light">
             <tr>
-                <td>
-                    🛏️ @room.RoomTypeName
-                </td>
-                @foreach (var cell in room.AvailabilityPerDate)
+                <th class="bg-primary text-white">Oda Tipi</th>
+                @foreach (var date in Model.Dates)
                 {
-                    <td class="@((cell.IsAvailableForSale ? "bg-success text-white" : "bg-danger text-white"))"
-                        data-roomtypeid="@room.RoomTypeId"
-                        data-date="@cell.Date.ToString("yyyy-MM-dd")">
-                        @cell.RemainingQuota / @cell.SoldQuota
-                        <div class="mt-1 d-flex flex-column gap-1">
-                            <button class="btn btn-sm btn-outline-primary edit-quota-btn"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#editQuotaModal"
-                                    data-roomtypeid="@room.RoomTypeId"
-                                    data-date="@cell.Date.ToString("yyyy-MM-dd")"
-                                    data-quota="@cell.RemainingQuota">
-                                Kontenjan Düzenle
-                            </button>
-                            <button class="btn btn-sm toggle-sale-btn @(cell.IsAvailableForSale ? "btn-danger" : "btn-success")"
-                                    data-roomtypeid="@room.RoomTypeId"
-                                    data-date="@cell.Date.ToString("yyyy-MM-dd")"
-                                    data-isavailable="@cell.IsAvailableForSale">
-                                @(cell.IsAvailableForSale ? "Satışa Kapat" : "Satışa Aç")
-                            </button>
-                        </div>
-                    </td>
+                    <th class="bg-primary text-white text-center">@date.ToString("dd MMM ddd")</th>
                 }
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var room in Model.RoomTypes)
+            {
+                <tr>
+                    <td class="fw-semibold">
+                        <span class="fs-5">🛏️</span> @room.RoomTypeName
+                    </td>
+                    @foreach (var cell in room.AvailabilityPerDate)
+                    {
+                        <td class="text-center p-3 border-0"
+                            style="vertical-align: middle; background: @(cell.IsAvailableForSale ? "#e6f4ea" : "#ec867f");"
+                            data-roomtypeid="@room.RoomTypeId"
+                            data-date="@cell.Date.ToString("yyyy-MM-dd")">
+                            <span class="badge rounded-pill @(cell.IsAvailableForSale ? "bg-success" : "bg-danger") fs-6 mb-2 shadow-sm">
+                                @cell.RemainingQuota / @cell.SoldQuota
+                            </span>
+                            <div class="d-flex flex-column gap-2">
+                                <button class="btn btn-primary btn-sm edit-quota-btn"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#editQuotaModal"
+                                        data-roomtypeid="@room.RoomTypeId"
+                                        data-date="@cell.Date.ToString("yyyy-MM-dd")"
+                                        data-quota="@cell.RemainingQuota">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                                <button class="btn btn-sm toggle-sale-btn @(cell.IsAvailableForSale ? "btn-danger" : "btn-success")"
+                                        data-roomtypeid="@room.RoomTypeId"
+                                        data-date="@cell.Date.ToString("yyyy-MM-dd")"
+                                        data-isavailable="@cell.IsAvailableForSale">
+                                    <i class="bi @(cell.IsAvailableForSale ? "bi-x-circle" : "bi-check-circle")"></i>
+                                    @(cell.IsAvailableForSale ? "" :"")
+                                </button>
+                            </div>
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Bootstrap Icons CDN (ekleyin) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<section>
+
+    @*<h2>Fiyat ve Müsaitlik</h2>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Oda Tipi</th>
+                    @foreach (var date in Model.Dates)
+                    {
+                        <th>@date.ToString("dd MMM ddd")</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var room in Model.RoomTypes)
+                {
+                    <tr>
+                        <td>
+                            🛏️ @room.RoomTypeName
+                        </td>
+                        @foreach (var cell in room.AvailabilityPerDate)
+                        {
+                            <td class="@((cell.IsAvailableForSale ? "bg-success text-white" : "bg-danger text-white"))"
+                                data-roomtypeid="@room.RoomTypeId"
+                                data-date="@cell.Date.ToString("yyyy-MM-dd")">
+                                <span class="badge badge-light">
+                                    @cell.RemainingQuota / @cell.SoldQuota
+                                </span>
+                                <div class="mt-1 d-flex flex-column gap-1">
+                                    <button class="btn btn-sm btn-primary edit-quota-btn"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#editQuotaModal"
+                                            data-roomtypeid="@room.RoomTypeId"
+                                            data-date="@cell.Date.ToString("yyyy-MM-dd")"
+                                            data-quota="@cell.RemainingQuota">
+                                        Kontenjan Düzenle
+                                    </button>
+                                    <button class="btn btn-sm toggle-sale-btn @(cell.IsAvailableForSale ? "btn-danger" : "btn-success")"
+                                            data-roomtypeid="@room.RoomTypeId"
+                                            data-date="@cell.Date.ToString("yyyy-MM-dd")"
+                                            data-isavailable="@cell.IsAvailableForSale">
+                                        @(cell.IsAvailableForSale ? "Satışa Kapat" : "Satışa Aç")
+                                    </button>
+                                </div>
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>*@
+</section>
 
 <!-- Modal -->
 <div class="modal fade" id="editQuotaModal" tabindex="-1" aria-labelledby="editQuotaLabel" aria-hidden="true">
@@ -77,6 +137,113 @@
         </div>
     </div>
 </div>
+@*<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const quotaModal = document.getElementById('editQuotaModal');
+            const editForm = document.getElementById('editQuotaForm');
+
+            if (quotaModal) {
+                quotaModal.addEventListener('show.bs.modal', function (event) {
+                    const button = event.relatedTarget;
+                    const roomTypeId = button.getAttribute('data-roomtypeid');
+                    const date = button.getAttribute('data-date');
+                    const quota = button.getAttribute('data-quota');
+
+                    console.log("Modal açılıyor, veri:", roomTypeId, date, quota);
+
+                    document.getElementById('quotaRoomTypeId').value = roomTypeId;
+                    document.getElementById('quotaDate').value = date;
+                    document.getElementById('quotaValue').value = quota;
+                });
+            }
+
+            if (editForm) {
+                editForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    const roomTypeId = document.getElementById('quotaRoomTypeId').value;
+                    const date = document.getElementById('quotaDate').value;
+                    const quota = document.getElementById('quotaValue').value;
+
+                    const dto = {
+                        roomTypeId: parseInt(roomTypeId),
+                        date: date,
+                        quota: parseInt(quota)
+                    };
+
+                    console.log("Form verisi gönderiliyor:", dto);
+
+                    fetch('https://localhost:7219/api/RoomAvailability/UpdateQuota', {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(dto)
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`Hata: ${response.status}`);
+                            }
+                            return response.text(); // ya da .json()
+                        })
+                        .then(data => {
+                            console.log('Güncelleme başarılı:', data);
+                            alert("Güncelleme başarılı.")
+                            location.reload(); // Sayfayı yeniden yükleyerek tabloyu güncelle
+                        })
+                        .catch(error => {
+                            console.error('Güncelleme hatası:', error);
+                            alert("Hata oluştu: " + error.message);
+                        });
+                });
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.toggle-sale-btn').forEach(button => {
+                button.addEventListener('click', function () {
+                    const roomTypeId = this.getAttribute('data-roomtypeid');
+                    const date = this.getAttribute('data-date');
+                    const currentIsAvailable = this.getAttribute('data-isavailable') === "true";
+                    const newIsAvailable = !currentIsAvailable;
+
+                    fetch('https://localhost:7219/api/RoomAvailability/ToggleAvailability', {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            roomTypeId: parseInt(roomTypeId),
+                            date: date,
+                            isAvailable: newIsAvailable
+                        })
+                    })
+                        .then(response => {
+                            if (!response.ok) throw new Error("Sunucu hatası");
+                            return response.text(); // Boş bile olabilir
+                        })
+                        .then(() => {
+                            const td = this.closest('td');
+                            this.setAttribute('data-isavailable', newIsAvailable);
+
+                            // Renk güncelle
+                            td.classList.toggle('bg-success', newIsAvailable);
+                            td.classList.toggle('bg-danger', !newIsAvailable);
+
+                            // Buton görünüm ve metin güncelle
+                            this.textContent = newIsAvailable ? "" : "";
+                            this.classList.toggle('btn-success', !newIsAvailable);
+                            this.classList.toggle('btn-danger', newIsAvailable);
+                        })
+                        .catch(err => alert("Satış durumu güncellenemedi: " + err.message));
+                });
+            });
+        });
+    </script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>*@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const quotaModal = document.getElementById('editQuotaModal');
@@ -88,8 +255,6 @@
                 const roomTypeId = button.getAttribute('data-roomtypeid');
                 const date = button.getAttribute('data-date');
                 const quota = button.getAttribute('data-quota');
-
-                console.log("Modal açılıyor, veri:", roomTypeId, date, quota);
 
                 document.getElementById('quotaRoomTypeId').value = roomTypeId;
                 document.getElementById('quotaDate').value = date;
@@ -111,8 +276,6 @@
                     quota: parseInt(quota)
                 };
 
-                console.log("Form verisi gönderiliyor:", dto);
-
                 fetch('https://localhost:7219/api/RoomAvailability/UpdateQuota', {
                     method: 'PATCH',
                     headers: {
@@ -124,16 +287,24 @@
                         if (!response.ok) {
                             throw new Error(`Hata: ${response.status}`);
                         }
-                        return response.text(); // ya da .json()
+                        return response.text();
                     })
                     .then(data => {
-                        console.log('Güncelleme başarılı:', data);
-                        alert("Güncelleme başarılı.")
-                        location.reload(); // Sayfayı yeniden yükleyerek tabloyu güncelle
+                        // Başarılı güncelleme bildirimi
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Başarılı',
+                            text: 'Kontenjan güncellendi!',
+                            timer: 1500,
+                            showConfirmButton: false
+                        }).then(() => location.reload());
                     })
                     .catch(error => {
-                        console.error('Güncelleme hatası:', error);
-                        alert("Hata oluştu: " + error.message);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Hata',
+                            text: "Güncelleme başarısız: " + error.message
+                        });
                     });
             });
         }
@@ -147,6 +318,7 @@
                 const date = this.getAttribute('data-date');
                 const currentIsAvailable = this.getAttribute('data-isavailable') === "true";
                 const newIsAvailable = !currentIsAvailable;
+                const btn = this;
 
                 fetch('https://localhost:7219/api/RoomAvailability/ToggleAvailability', {
                     method: 'PATCH',
@@ -161,26 +333,36 @@
                 })
                     .then(response => {
                         if (!response.ok) throw new Error("Sunucu hatası");
-                        return response.text(); // Boş bile olabilir
+                        return response.text();
                     })
                     .then(() => {
-                        const td = this.closest('td');
-                        this.setAttribute('data-isavailable', newIsAvailable);
+                        const td = btn.closest('td');
+                        btn.setAttribute('data-isavailable', newIsAvailable);
 
                         // Renk güncelle
-                        td.classList.toggle('bg-success', newIsAvailable);
-                        td.classList.toggle('bg-danger', !newIsAvailable);
+                        td.style.background = newIsAvailable ? "#e6f4ea" : "#ec867f";
 
                         // Buton görünüm ve metin güncelle
-                        this.textContent = newIsAvailable ? "Satışa Kapat" : "Satışa Aç";
-                        this.classList.toggle('btn-success', !newIsAvailable);
-                        this.classList.toggle('btn-danger', newIsAvailable);
+                        btn.classList.toggle('btn-success', !newIsAvailable);
+                        btn.classList.toggle('btn-danger', newIsAvailable);
+
+                        // İkon ve tooltip güncelle
+                        const icon = btn.querySelector('i');
+                        if (icon) {
+                            icon.className = newIsAvailable ? "bi bi-x-circle" : "bi bi-check-circle";
+                        }
+                        btn.title = newIsAvailable ? "Satışa Kapat" : "Satışa Aç";
                     })
-                    .catch(err => alert("Satış durumu güncellenemedi: " + err.message));
+                    .catch(err => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Hata',
+                            text: "Satış durumu güncellenemedi: " + err.message
+                        });
+                    });
             });
         });
     });
 </script>
-
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- SweetAlert2 CDN (isteğe bağlı, daha modern bildirimler için) -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

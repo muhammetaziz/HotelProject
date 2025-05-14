@@ -60,6 +60,8 @@ namespace HotelWebApi.Controllers
                 PricePerNight = updateRoomTypeDto.PricePerNight,
                 AvailableRoomCount = updateRoomTypeDto.AvailableRoomCount,
                 Description = updateRoomTypeDto.Description,
+                // resim =resim
+
 
             });
             return Ok("Oda tipi başarılı bir şekilde güncellendi.");

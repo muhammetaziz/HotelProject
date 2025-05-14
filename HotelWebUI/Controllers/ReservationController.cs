@@ -1,4 +1,5 @@
 ﻿using HotelWebUI.Dtos.ReservationDtos;
+using HotelWebUI.Dtos.RoomAvailablilityDtos;
 using HotelWebUI.Dtos.RoomTypeDtos;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -29,29 +30,62 @@ namespace HotelWebUI.Controllers
 
         public async Task<IActionResult> RoomList()
         {
-            if (TempData["TotalPeople"] == null)
+            if (TempData["TotalPeople"] == null || TempData["CheckInDate"] == null || TempData["CheckOutDate"] == null)
                 return RedirectToAction("Index", "Home");
 
             var totalPeople = (int)TempData["TotalPeople"];
+            var checkInDate = Convert.ToDateTime(TempData["CheckInDate"]);
+            var checkOutDate = Convert.ToDateTime(TempData["CheckOutDate"]);
+
             var client = _httpClientFactory.CreateClient();
 
-            var response = await client.GetAsync("https://localhost:7219/api/RoomType");
+            var requestDto = new ReservationSearchDto
+            {
+                CheckInDate = checkInDate,
+                CheckOutDate = checkOutDate,
+                ChildCount =0,
+                AdultCount = totalPeople
+            };
+
+            var response = await client.PostAsJsonAsync("https://localhost:7219/api/RoomAvailability/CheckAvailability", requestDto);
+
             if (!response.IsSuccessStatusCode)
-                return View("Error");
+            {
+                ViewBag.Message = "Seçtiğiniz tarihlerde uygun oda bulunamadı. Lütfen bizimle iletişime geçin.";
+                return View("NoAvailableRooms");
+            }
 
-            var jsonData = await response.Content.ReadAsStringAsync();
-            var rooms = JsonConvert.DeserializeObject<List<ResultRoomTypeDto>>(jsonData);
+            var availableRooms = await response.Content.ReadFromJsonAsync<List<AvailableRoomDto>>();
 
-            // Kapasitesi yeterli odaları filtrele
-            var filteredRooms = rooms.Where(r => r.Capacity >= totalPeople).ToList();
 
-            // Verileri TempData ile tekrar taşı
-            TempData["CheckInDate"] = TempData["CheckInDate"];
-            TempData["CheckOutDate"] = TempData["CheckOutDate"];
+            var mappedRooms = availableRooms.Select(x => new ResultRoomTypeDto
+            {
+                RoomTypeId = x.RoomTypeId,
+                Capacity = x.Capacity,
+                PricePerNight = x.PricePerNight,
+                AvailableRoomCount = x.AvailableRoomCount,
+                Description = x.RoomName
+            }).ToList();
+
+            if (mappedRooms == null || !mappedRooms.Any())
+            {
+                ViewBag.Message = "Seçtiğiniz tarihlerde uygun oda bulunamadı. Lütfen bizimle iletişime geçin.";
+                return View("NoAvailableRooms");
+            }
+
+            // TempData'yı tekrar yaz çünkü TempData bir sonraki request'te silinir
+            TempData["CheckInDate"] = checkInDate;
+            TempData["CheckOutDate"] = checkOutDate;
             TempData["TotalPeople"] = totalPeople;
 
-            return View(filteredRooms);
+            return View(mappedRooms);
         }
+    
+        public IActionResult NoAvailableRooms()
+        {
+            return View();
+        }
+
         [HttpPost]
         public IActionResult EnterGuestInfo(int RoomTypeId, int Quantity)
         {

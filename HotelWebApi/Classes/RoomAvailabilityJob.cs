@@ -32,6 +32,7 @@ namespace HotelDataAccessLayer.Seeders
                         Date = tomorrow,
                         IsAvailableForSale = true,
                         RemainingQuota = roomType.AvailableRoomCount,
+
                     });
                 }
             }

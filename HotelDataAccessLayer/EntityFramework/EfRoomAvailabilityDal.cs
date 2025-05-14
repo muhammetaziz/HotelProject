@@ -17,6 +17,23 @@ namespace HotelDataAccessLayer.EntityFramework
         {
         }
 
+        public List<RoomType> GetAvailableRoomTypes(DateTime checkIn, DateTime checkOut, int personCount)
+        {
+            using var context = new HotelContext();
+
+            var availableRoomTypes = context.RoomAvailabilities
+                .Include(x => x.RoomType)
+                .Where(x => x.Date >= checkIn && x.Date < checkOut)
+                .Where(x => x.IsAvailableForSale && x.RemainingQuota > 0)
+                .GroupBy(x => x.RoomTypeId)
+                .Where(g => g.Count() == (checkOut - checkIn).Days) // her gün için müsaitlik var mı
+                .Select(g => g.First().RoomType)
+                .Where(rt => rt.Capacity >= personCount)
+                .Distinct()
+                .ToList();
+
+            return availableRoomTypes;
+        }
 
         public List<RoomAvailability> GetByDateRange(DateTime startDate, DateTime endDate)
         {
@@ -31,7 +48,15 @@ namespace HotelDataAccessLayer.EntityFramework
         public RoomAvailability GetByRoomTypeAndDate(int roomTypeId, DateTime date)
         {
             using var context = new HotelContext();
-            return context.RoomAvailabilities.FirstOrDefault(x => x.RoomTypeId == roomTypeId && x.Date.Date == date.Date);
+            return context.RoomAvailabilities.Include(x => x.RoomType).FirstOrDefault(x => x.RoomTypeId == roomTypeId && x.Date.Date == date.Date);
+        }
+        public List<RoomAvailability> GetByRoomTypeAndDateRange(int roomTypeId, DateTime startDate, DateTime endDate)
+        {
+            using var context = new HotelContext();
+            return context.RoomAvailabilities
+                          .Include(x => x.RoomType)
+                          .Where(x => x.RoomTypeId == roomTypeId && x.Date >= startDate && x.Date < endDate)
+                          .ToList();
         }
     }
 }
