@@ -1,0 +1,40 @@
+﻿@model HotelWebUI.Dtos.RoomTypeDtos.RoomTypeViewModel
+
+@{
+    ViewData["Title"] = "UpdateRoomType";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<form asp-action="UpdateRoomType" enctype="multipart/form-data" method="post">
+    <input type="hidden" asp-for="RoomTypeId" />
+
+    <div class="form-group">
+        <label>Capacity</label>
+        <input asp-for="Capacity" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Price Per Night</label>
+        <input asp-for="PricePerNight" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Available Room Count</label>
+        <input asp-for="AvailableRoomCount" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Description</label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+    </div>
+    <div class="form-group">
+        <label>Room Image</label>
+        <input asp-for="RoomImage" type="file" class="form-control" />
+    </div>
+
+    @*@if (!string.IsNullOrEmpty(Model.ExistingImageUrl))
+    {
+        <div class="mb-2">
+            <img src="@Model.ExistingImageUrl" alt="Oda Görseli" width="200" />
+        </div>
+    }*@
+
+    <button type="submit" class="btn btn-success">Güncelle</button>
+</form>

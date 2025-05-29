@@ -27,19 +27,41 @@ namespace HotelWebApi.Controllers
             var values = _mapper.Map<List<ResultRoomTypeDto>>(_roomTypeService.TGetListAll());
             return Ok(values);
         }
-        [HttpPost]
-        public IActionResult CreateRoomType(CreateRoomTypeDto createRoomTypeDto)
-        {
-            _roomTypeService.TInsert(new RoomType
-            {
-                Capacity = createRoomTypeDto.Capacity,
-                PricePerNight = createRoomTypeDto.PricePerNight,
-                AvailableRoomCount = createRoomTypeDto.AvailableRoomCount,
-                Description = createRoomTypeDto.Description,
 
-            });
+
+
+        [HttpPost]
+        public async Task<IActionResult> CreateRoomType([FromForm] CreateRoomTypeDto dto)
+        {
+            string? imageUrl = null;
+
+            if (dto.RoomImage != null && dto.RoomImage.Length > 0)
+            {
+                var extension = Path.GetExtension(dto.RoomImage.FileName);
+                var newFileName = Guid.NewGuid() + extension;
+                var savePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Rooms/", newFileName);
+
+                using (var stream = new FileStream(savePath, FileMode.Create))
+                {
+                    await dto.RoomImage.CopyToAsync(stream);
+                }
+
+                imageUrl = "/Images/Rooms/" + newFileName;
+            }
+
+            var roomType = new RoomType
+            {
+                Capacity = dto.Capacity,
+                PricePerNight = dto.PricePerNight,
+                AvailableRoomCount = dto.AvailableRoomCount,
+                Description = dto.Description,
+                ImageUrl = imageUrl
+            };
+
+            _roomTypeService.TInsert(roomType);
             return Ok("Oda tipi başarılı bir şekilde eklendi.");
         }
+
         [HttpDelete("{id}")]
         public IActionResult DeleteRoomType(int id)
         {
@@ -52,18 +74,31 @@ namespace HotelWebApi.Controllers
             return Ok("Oda tipi silindi.");
         }
         [HttpPut]
-        public IActionResult UpdateRoomType(UpdateRoomTypeDto updateRoomTypeDto)
+        public async Task<IActionResult> UpdateRoomType([FromForm] UpdateRoomTypeDto dto)
         {
-            _roomTypeService.TUpdate(new RoomType
+            var roomType = _roomTypeService.TGetById(dto.RoomTypeId);
+            if (roomType == null) return NotFound("Oda tipi bulunamadı.");
+
+            if (dto.RoomImage != null && dto.RoomImage.Length > 0)
             {
-                Capacity = updateRoomTypeDto.Capacity,
-                PricePerNight = updateRoomTypeDto.PricePerNight,
-                AvailableRoomCount = updateRoomTypeDto.AvailableRoomCount,
-                Description = updateRoomTypeDto.Description,
-                // resim =resim
+                var extension = Path.GetExtension(dto.RoomImage.FileName);
+                var newFileName = Guid.NewGuid() + extension;
+                var savePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Rooms/", newFileName);
 
+                using (var stream = new FileStream(savePath, FileMode.Create))
+                {
+                    await dto.RoomImage.CopyToAsync(stream);
+                }
 
-            });
+                roomType.ImageUrl = "/Images/Rooms/" + newFileName;
+            }
+
+            roomType.Capacity = dto.Capacity;
+            roomType.PricePerNight = dto.PricePerNight;
+            roomType.AvailableRoomCount = dto.AvailableRoomCount;
+            roomType.Description = dto.Description;
+
+            _roomTypeService.TUpdate(roomType);
             return Ok("Oda tipi başarılı bir şekilde güncellendi.");
         }
         [HttpGet("{id}")]

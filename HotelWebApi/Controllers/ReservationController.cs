@@ -16,12 +16,14 @@ namespace HotelWebApi.Controllers
         private readonly IReservationService _reservationService;
         private readonly IMapper _mapper;
         private readonly IRoomTypeService _roomTypeService;
+        private readonly IRoomAvailabilityService _roomAvailabilityService;
 
-        public ReservationController(IReservationService reservationService, IMapper mapper, IRoomTypeService roomTypeService)
+        public ReservationController(IReservationService reservationService, IMapper mapper, IRoomTypeService roomTypeService, IRoomAvailabilityService roomAvailabilityService)
         {
             _reservationService = reservationService;
             _mapper = mapper;
             _roomTypeService = roomTypeService;
+            _roomAvailabilityService = roomAvailabilityService;
         }
 
         [HttpGet]
@@ -31,7 +33,7 @@ namespace HotelWebApi.Controllers
             return Ok(values);
         }
 
-        [HttpDelete("{id}")]  
+        [HttpDelete("{id}")]
         public IActionResult DeleteReservation(int id)
         {
             var values = _reservationService.TGetById(id);
@@ -82,8 +84,23 @@ namespace HotelWebApi.Controllers
                 if (room == null)
                     return BadRequest($"RoomType with ID {detail.RoomTypeId} not found.");
 
-                if (room.AvailableRoomCount < detail.Quantity)
-                    return BadRequest($"Yeterli oda yok. RoomTypeID: {detail.RoomTypeId}");
+                // Tüm tarihler için RoomAvailability kontrolü
+                var availabilityRecords = _roomAvailabilityService.GetByRoomTypeAndDateRange(detail.RoomTypeId, dto.CheckInDate, dto.CheckOutDate);
+
+
+                if (availabilityRecords.Count != totalNights)
+                    return BadRequest("Seçilen tarihler için tüm günler için uygunluk verisi bulunamadı.");
+
+                if (availabilityRecords.Any(x => !x.IsAvailableForSale || x.RemainingQuota < detail.Quantity))
+                    return BadRequest("Seçilen tarihlerde yeterli kontenjan yok.");
+
+                // Quota düş
+                foreach (var record in availabilityRecords)
+                {
+                    record.RemainingQuota -= detail.Quantity;
+                    record.SoldQuota += detail.Quantity;
+                    _roomAvailabilityService.TUpdate(record);
+                }
 
                 decimal subTotal = room.PricePerNight * detail.Quantity * totalNights;
                 totalPrice += subTotal;
@@ -94,10 +111,6 @@ namespace HotelWebApi.Controllers
                     Quantity = detail.Quantity,
                     SubTotal = subTotal,
                 });
-
-                // Oda stoğundan düş
-                room.AvailableRoomCount -= detail.Quantity;
-                _roomTypeService.TUpdate(room);
             }
 
             var reservation = new Reservation
@@ -151,7 +164,7 @@ namespace HotelWebApi.Controllers
         [HttpGet("details/{id}")]
         public IActionResult ListReservationWithDetailsById(int id)
         {
-            var reservation = _reservationService.GetListReservationWithDetails().FirstOrDefault(x=>x.ReservationId==id);
+            var reservation = _reservationService.GetListReservationWithDetails().FirstOrDefault(x => x.ReservationId == id);
             if (reservation == null)
                 return NotFound("Rezervasyon bulunamadı.");
 

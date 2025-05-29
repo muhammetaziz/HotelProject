@@ -31,7 +31,7 @@
                             data-roomtypeid="@room.RoomTypeId"
                             data-date="@cell.Date.ToString("yyyy-MM-dd")">
                             <span class="badge rounded-pill @(cell.IsAvailableForSale ? "bg-success" : "bg-danger") fs-6 mb-2 shadow-sm">
-                                @cell.RemainingQuota / @cell.SoldQuota
+                                @cell.RemainingQuota /  @cell.SoldQuota
                             </span>
                             <div class="d-flex flex-column gap-2">
                                 <button class="btn btn-primary btn-sm edit-quota-btn"

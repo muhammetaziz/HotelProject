@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,6 @@ namespace HotelDtoLayer.RoomTypeDto
         public decimal PricePerNight { get; set; } // Gecelik fiyat
         public int AvailableRoomCount { get; set; } // Şu an müsait kaç tane var
         public string Description { get; set; }
+        public IFormFile? RoomImage { get; set; }
     }
 }

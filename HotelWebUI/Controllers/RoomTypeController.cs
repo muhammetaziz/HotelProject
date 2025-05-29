@@ -21,39 +21,11 @@ namespace HotelWebUI.Controllers
             if (response.IsSuccessStatusCode)
             {
                 var jsonData = await response.Content.ReadAsStringAsync();
-                var values = JsonConvert.DeserializeObject<List<ResultRoomTypeDto>>(jsonData);
+                var values = JsonConvert.DeserializeObject<List<RoomTypeViewModel>>(jsonData);
                 return View(values);
             }
             return View();
-        }
-        [HttpPost]
-        public async Task<IActionResult> AddOrUpdateRoomType(ResultRoomTypeDto dto)
-        {
-            var client = _httpClientFactory.CreateClient();
-            StringContent content = new StringContent(JsonConvert.SerializeObject(dto), Encoding.UTF8, "application/json");
-
-            if (dto.RoomTypeId == 0)
-            {
-                // Yeni ekleme
-                var response = await client.PostAsync("https://localhost:7219/api/RoomType", content);
-                if (response.IsSuccessStatusCode)
-                {
-                    TempData["ToastMessage"] = "Oda tipi başarıyla eklendi.";
-                }
-            }
-            else
-            {
-                // Güncelleme
-                var response = await client.PutAsync("https://localhost:7219/api/RoomType", content);
-                if (response.IsSuccessStatusCode)
-                {
-                    TempData["ToastMessage"] = "Oda tipi başarıyla güncellendi.";
-                }
-            }
-
-            return RedirectToAction("Index");
-        }
-
+        } 
         public async Task<IActionResult> Delete(int id)
         {
             var client = _httpClientFactory.CreateClient();
@@ -65,5 +37,78 @@ namespace HotelWebUI.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public IActionResult CreateRoomType()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateRoomType(RoomTypeViewModel model)
+        {
+            using var client = new HttpClient();
+            var form = new MultipartFormDataContent();
+
+            form.Add(new StringContent(model.Capacity.ToString()), "Capacity");
+            form.Add(new StringContent(model.PricePerNight.ToString()), "PricePerNight");
+            form.Add(new StringContent(model.AvailableRoomCount.ToString()), "AvailableRoomCount");
+            form.Add(new StringContent(model.Description ?? ""), "Description");
+
+            if (model.RoomImage != null)
+            {
+                var stream = model.RoomImage.OpenReadStream();
+                var fileContent = new StreamContent(stream);
+                form.Add(fileContent, "RoomImage", model.RoomImage.FileName);
+            }
+
+            var response = await client.PostAsync("https://localhost:7219/api/RoomType", form); // API URL'ini kendi projenle değiştir
+
+            if (response.IsSuccessStatusCode)
+                return RedirectToAction("Index");
+
+            return View(model);
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> UpdateRoomType(int id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.GetAsync("https://localhost:7219/api/RoomType/" + id);
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                var jsonData = await responseMessage.Content.ReadAsStringAsync();
+                var values = JsonConvert.DeserializeObject<RoomTypeViewModel>(jsonData);
+                return View(values);
+            }
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdateRoomType(RoomTypeViewModel model)
+        {
+            using var client = new HttpClient();
+            var form = new MultipartFormDataContent();
+
+            form.Add(new StringContent(model.RoomTypeId.ToString()), "RoomTypeId");
+            form.Add(new StringContent(model.Capacity.ToString()), "Capacity");
+            form.Add(new StringContent(model.PricePerNight.ToString()), "PricePerNight");
+            form.Add(new StringContent(model.AvailableRoomCount.ToString()), "AvailableRoomCount");
+            form.Add(new StringContent(model.Description ?? ""), "Description");
+
+            if (model.RoomImage != null)
+            {
+                var stream = model.RoomImage.OpenReadStream();
+                var fileContent = new StreamContent(stream);
+                form.Add(fileContent, "RoomImage", model.RoomImage.FileName);
+            }
+
+            var response = await client.PutAsync("https://localhost:7219/api/RoomType", form);
+
+            if (response.IsSuccessStatusCode)
+                return RedirectToAction("Index");
+
+            return View(model);
+        }
+
     }
 }

@@ -59,6 +59,11 @@ namespace HotelBusinessLayer.Concrete
             _roomAvailabilityDal.Delete(entity);
         }
 
+        public List<RoomAvailability> TGetAvailabilityBetweenDates(int roomTypeId, DateTime startDate, DateTime endDate)
+        {
+            return _roomAvailabilityDal.GetAvailabilityBetweenDates(roomTypeId, startDate, endDate);
+        }
+
         public RoomAvailability TGetById(int id)
         {
             return _roomAvailabilityDal.GetById(id);

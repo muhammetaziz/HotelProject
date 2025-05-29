@@ -33,20 +33,23 @@ namespace HotelWebUI.Controllers
             if (TempData["TotalPeople"] == null || TempData["CheckInDate"] == null || TempData["CheckOutDate"] == null)
                 return RedirectToAction("Index", "Home");
 
-            var totalPeople = (int)TempData["TotalPeople"];
-            var checkInDate = Convert.ToDateTime(TempData["CheckInDate"]);
-            var checkOutDate = Convert.ToDateTime(TempData["CheckOutDate"]);
+            // TempData'dan değerleri al
+            int totalPeople = (int)TempData["TotalPeople"];
+            DateTime checkInDate = Convert.ToDateTime(TempData["CheckInDate"]);
+            DateTime checkOutDate = Convert.ToDateTime(TempData["CheckOutDate"]);
 
+            // HttpClient oluştur
             var client = _httpClientFactory.CreateClient();
 
-            var requestDto = new ReservationSearchDto
+            // API'nin beklediği formata uygun JSON nesnesi hazırla (string formatlı tarih ile gönderim yapılabilir)
+            var requestDto = new
             {
-                CheckInDate = checkInDate,
-                CheckOutDate = checkOutDate,
-                ChildCount =0,
-                AdultCount = totalPeople
+                checkIn = checkInDate.ToString("yyyy-MM-dd"),
+                checkOut = checkOutDate.ToString("yyyy-MM-dd"),
+                personCount = totalPeople
             };
 
+            // API'ye post isteği gönder
             var response = await client.PostAsJsonAsync("https://localhost:7219/api/RoomAvailability/CheckAvailability", requestDto);
 
             if (!response.IsSuccessStatusCode)
@@ -55,9 +58,17 @@ namespace HotelWebUI.Controllers
                 return View("NoAvailableRooms");
             }
 
+            // Gelen odaları al
             var availableRooms = await response.Content.ReadFromJsonAsync<List<AvailableRoomDto>>();
 
+            // Gelen veri boşsa kullanıcıya bilgi ver
+            if (availableRooms == null || !availableRooms.Any())
+            {
+                ViewBag.Message = "Seçtiğiniz tarihlerde uygun oda bulunamadı. Lütfen bizimle iletişime geçin.";
+                return View("NoAvailableRooms");
+            }
 
+            // RoomTypeDto'ya dönüştür
             var mappedRooms = availableRooms.Select(x => new ResultRoomTypeDto
             {
                 RoomTypeId = x.RoomTypeId,
@@ -67,20 +78,15 @@ namespace HotelWebUI.Controllers
                 Description = x.RoomName
             }).ToList();
 
-            if (mappedRooms == null || !mappedRooms.Any())
-            {
-                ViewBag.Message = "Seçtiğiniz tarihlerde uygun oda bulunamadı. Lütfen bizimle iletişime geçin.";
-                return View("NoAvailableRooms");
-            }
-
-            // TempData'yı tekrar yaz çünkü TempData bir sonraki request'te silinir
+            // TempData'yı yeniden ata (bir sonraki request için)
             TempData["CheckInDate"] = checkInDate;
             TempData["CheckOutDate"] = checkOutDate;
             TempData["TotalPeople"] = totalPeople;
 
             return View(mappedRooms);
         }
-    
+
+
         public IActionResult NoAvailableRooms()
         {
             return View();

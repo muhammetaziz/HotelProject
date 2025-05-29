@@ -29,7 +29,8 @@ namespace HotelWebUI.Controllers
             }
             TempData["CheckInDate"] = reservationSearchDto.CheckInDate;
             TempData["CheckOutDate"] = reservationSearchDto.CheckOutDate;
-            TempData["TotalPeople"] = reservationSearchDto.AdultCount+reservationSearchDto.ChildCount;
+            TempData["TotalPeople"] = reservationSearchDto.AdultCount ;
+            //TempData["TotalPeople"] = reservationSearchDto.AdultCount+reservationSearchDto.ChildCount;
             return RedirectToAction("RoomList", "Reservation");
         }
 

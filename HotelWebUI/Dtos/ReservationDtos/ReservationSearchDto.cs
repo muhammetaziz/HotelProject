@@ -13,6 +13,6 @@ namespace HotelWebUI.Dtos.ReservationDtos
         [Required]
         public int AdultCount { get; set; }
 
-        public int ChildCount { get; set; }
+        //public int ChildCount { get; set; }
     }
 }

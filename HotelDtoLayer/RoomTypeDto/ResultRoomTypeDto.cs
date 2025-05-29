@@ -13,5 +13,7 @@ namespace HotelDtoLayer.RoomTypeDto
         public decimal PricePerNight { get; set; } // Gecelik fiyat
         public int AvailableRoomCount { get; set; } // Şu an müsait kaç tane var
         public string Description { get; set; }
+        public string ExistingImageUrl { get; set; } // ✅ Burası olmalı
+
     }
 }

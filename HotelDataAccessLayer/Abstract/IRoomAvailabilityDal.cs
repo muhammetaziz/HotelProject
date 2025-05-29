@@ -13,6 +13,8 @@ namespace HotelDataAccessLayer.Abstract
         RoomAvailability GetByRoomTypeAndDate(int roomTypeId, DateTime date);
         public List<RoomType> GetAvailableRoomTypes(DateTime checkIn, DateTime checkOut, int personCount);
         public List<RoomAvailability> GetByRoomTypeAndDateRange(int roomTypeId, DateTime startDate, DateTime endDate);
+        List<RoomAvailability> GetAvailabilityBetweenDates(int roomTypeId, DateTime startDate, DateTime endDate);
+
     }
-         
+
 }

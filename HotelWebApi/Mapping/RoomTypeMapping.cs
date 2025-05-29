@@ -8,7 +8,10 @@ namespace HotelWebApi.Mapping
     {
         public RoomTypeMapping()
         {
-            CreateMap<RoomType, ResultRoomTypeDto>().ReverseMap();
+            CreateMap<RoomType, ResultRoomTypeDto>()
+            .ForMember(dest => dest.ExistingImageUrl, opt => opt.MapFrom(src =>
+                $"https://localhost:7219/{src.ImageUrl}")) // burayı ekledik
+            .ReverseMap();
             CreateMap<RoomType, CreateRoomTypeDto>().ReverseMap();
             CreateMap<RoomType, GetRoomTypeDto>().ReverseMap();
             CreateMap<RoomType, UpdateRoomTypeDto>().ReverseMap();

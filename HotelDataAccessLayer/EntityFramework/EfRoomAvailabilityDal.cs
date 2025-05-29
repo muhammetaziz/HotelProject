@@ -17,6 +17,18 @@ namespace HotelDataAccessLayer.EntityFramework
         {
         }
 
+        public List<RoomAvailability> GetAvailabilityBetweenDates(int roomTypeId, DateTime startDate, DateTime endDate)
+        {
+            
+            using var context = new HotelContext();
+            var AvailableList=context.RoomAvailabilities
+                .Include(x => x.RoomType)
+                .Where(x => x.RoomTypeId == roomTypeId && x.Date >= startDate && x.Date < endDate)
+                .ToList();
+            return AvailableList;
+        }
+
+
         public List<RoomType> GetAvailableRoomTypes(DateTime checkIn, DateTime checkOut, int personCount)
         {
             using var context = new HotelContext();
@@ -54,7 +66,7 @@ namespace HotelDataAccessLayer.EntityFramework
         {
             using var context = new HotelContext();
             return context.RoomAvailabilities
-                          .Include(x => x.RoomType)
+                          
                           .Where(x => x.RoomTypeId == roomTypeId && x.Date >= startDate && x.Date < endDate)
                           .ToList();
         }

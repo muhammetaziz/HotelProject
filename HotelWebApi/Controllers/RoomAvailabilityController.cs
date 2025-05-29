@@ -129,7 +129,9 @@ namespace HotelWebApi.Controllers
                     {
                         RoomTypeId = roomType.RoomTypeId,
                         RoomName = roomType.Description,
-                        Capacity = roomType.Capacity
+                        Capacity = roomType.Capacity,
+                        PricePerNight = roomType.PricePerNight,
+                        AvailableRoomCount = availabilities.Sum(a => a.RemainingQuota)
                     });
                 }
             }

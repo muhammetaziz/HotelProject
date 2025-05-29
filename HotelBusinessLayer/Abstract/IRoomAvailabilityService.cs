@@ -15,6 +15,7 @@ namespace HotelBusinessLayer.Abstract
         List<RoomType> GetAllRoomTypes();
         public List<RoomType> GetAvailableRoomTypes(DateTime checkIn, DateTime checkOut, int personCount);
         public List<RoomAvailability> GetByRoomTypeAndDateRange(int roomTypeId, DateTime startDate, DateTime endDate);
+        public List<RoomAvailability> TGetAvailabilityBetweenDates(int roomTypeId, DateTime startDate, DateTime endDate);
 
     }
 }
