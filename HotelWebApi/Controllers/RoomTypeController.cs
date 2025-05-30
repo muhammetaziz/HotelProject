@@ -65,41 +65,56 @@ namespace HotelWebApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteRoomType(int id)
         {
-            var values = _roomTypeService.TGetById(id);
-            if (values == null)
-            {
+            var roomType = _roomTypeService.TGetById(id);
+            if (roomType == null)
                 return NotFound("Oda tipi bulunamadı.");
+
+            // Resmi sil
+            if (!string.IsNullOrEmpty(roomType.ImageUrl))
+            {
+                var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", roomType.ImageUrl.TrimStart('/'));
+                if (System.IO.File.Exists(imagePath))
+                {
+                    System.IO.File.Delete(imagePath);
+                }
             }
-            _roomTypeService.TDelete(values);
-            return Ok("Oda tipi silindi.");
+            _roomTypeService.TDelete(roomType);
+            return Ok("Oda tipi ve resmi silindi.");
         }
         [HttpPut]
         public async Task<IActionResult> UpdateRoomType([FromForm] UpdateRoomTypeDto dto)
         {
             var roomType = _roomTypeService.TGetById(dto.RoomTypeId);
-            if (roomType == null) return NotFound("Oda tipi bulunamadı.");
+            if (roomType == null)
+                return NotFound("Oda tipi bulunamadı.");
 
-            if (dto.RoomImage != null && dto.RoomImage.Length > 0)
+            // Yeni resim varsa, eski resmi sil
+            if (dto.RoomImage != null && !string.IsNullOrEmpty(roomType.ImageUrl))
             {
-                var extension = Path.GetExtension(dto.RoomImage.FileName);
-                var newFileName = Guid.NewGuid() + extension;
-                var savePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Rooms/", newFileName);
-
-                using (var stream = new FileStream(savePath, FileMode.Create))
+                var oldImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Rooms", Path.GetFileName(roomType.ImageUrl));
+                if (System.IO.File.Exists(oldImagePath))
                 {
-                    await dto.RoomImage.CopyToAsync(stream);
+                    System.IO.File.Delete(oldImagePath); // Eski resmi sil
                 }
 
+                // Yeni resmi yükle
+                var extension = Path.GetExtension(dto.RoomImage.FileName);
+                var newFileName = Guid.NewGuid() + extension;
+                var newPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Rooms", newFileName);
+                using var stream = new FileStream(newPath, FileMode.Create);
+                await dto.RoomImage.CopyToAsync(stream);
                 roomType.ImageUrl = "/Images/Rooms/" + newFileName;
             }
 
+            // Diğer alanları güncelle
             roomType.Capacity = dto.Capacity;
             roomType.PricePerNight = dto.PricePerNight;
-            roomType.AvailableRoomCount = dto.AvailableRoomCount;
             roomType.Description = dto.Description;
+            roomType.AvailableRoomCount = dto.AvailableRoomCount;
 
             _roomTypeService.TUpdate(roomType);
-            return Ok("Oda tipi başarılı bir şekilde güncellendi.");
+
+            return Ok("Oda tipi güncellendi.");
         }
         [HttpGet("{id}")]
         public IActionResult GetRoomType(int id)

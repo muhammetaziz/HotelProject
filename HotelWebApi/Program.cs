@@ -61,6 +61,9 @@ builder.Services.AddScoped<ISocialMediaDal, EfSocialMediaDal>();
 builder.Services.AddScoped<IRoomAvailabilityService, RoomAvailabilityManager>();
 builder.Services.AddScoped<IRoomAvailabilityDal, EfRoomAvailabilityDal>();
 
+builder.Services.AddScoped<IPricePeriodService, PricePeriodManager>();
+builder.Services.AddScoped<IPricePeriodDal, EfPricePeriodDal>();
+
 #endregion
 
 builder.Services.AddScoped<RoomAvailabilityJob>();
