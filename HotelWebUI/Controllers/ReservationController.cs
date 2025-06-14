@@ -1,4 +1,5 @@
-﻿using HotelWebUI.Dtos.ReservationDtos;
+﻿using HotelWebUI.Dtos.GlobalSettingsDto;
+using HotelWebUI.Dtos.ReservationDtos;
 using HotelWebUI.Dtos.RoomAvailablilityDtos;
 using HotelWebUI.Dtos.RoomTypeDtos;
 using Microsoft.AspNetCore.Mvc;
@@ -32,6 +33,21 @@ namespace HotelWebUI.Controllers
         {
             if (TempData["TotalPeople"] == null || TempData["CheckInDate"] == null || TempData["CheckOutDate"] == null)
                 return RedirectToAction("Index", "Home");
+            var client2 = _httpClientFactory.CreateClient();
+            var saleResponse = await client2.GetAsync("https://localhost:7219/api/GlobalSettings");
+
+            if (saleResponse.IsSuccessStatusCode)
+            {
+                var saleJson = await saleResponse.Content.ReadAsStringAsync();
+                var settings = JsonConvert.DeserializeObject<GlobalSettingsDto>(saleJson);
+
+                if (!settings.IsSaleOpen)
+                {
+                    // Satış kapalıysa kullanıcıya bilgi verip anasayfaya yönlendir
+                    TempData["SaleMessage"] = "Şu anda rezervasyon işlemleri kapalıdır. Lütfen daha sonra tekrar deneyiniz.";
+                    return RedirectToAction("Index", "UserHome");
+                }
+            }
 
             // TempData'dan değerleri al
             int totalPeople = (int)TempData["TotalPeople"];

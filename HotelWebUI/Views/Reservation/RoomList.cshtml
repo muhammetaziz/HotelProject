@@ -42,3 +42,14 @@ else
 <br />
 <br />
 <br />
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    var saleMessage = 'Şu anda rezervasyon işlemleri yapılamamaktadır. Lütfen daha sonra tekrar deneyiniz.';
+    if (saleMessage) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Bilgilendirme',
+            text: saleMessage
+        });
+    }
+</script>

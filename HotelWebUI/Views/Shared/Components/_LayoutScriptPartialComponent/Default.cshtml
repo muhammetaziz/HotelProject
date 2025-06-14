@@ -11,24 +11,24 @@
 <script src="~/AdminLTE-master/dist/js/adminlte.js"></script>
 <!--end::Required Plugin(AdminLTE)--><!--begin::OverlayScrollbars Configure-->
 <script>
-      const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
-      const Default = {
-          scrollbarTheme: 'os-theme-light',
-          scrollbarAutoHide: 'leave',
-          scrollbarClickScroll: true,
-      };
-      document.addEventListener('DOMContentLoaded', function () {
-          const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
-          if (sidebarWrapper && typeof OverlayScrollbarsGlobal?.OverlayScrollbars !== 'undefined') {
-              OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
-                  scrollbars: {
-                      theme: Default.scrollbarTheme,
-                      autoHide: Default.scrollbarAutoHide,
-                      clickScroll: Default.scrollbarClickScroll,
-                  },
-              });
-          }
-      });
+    const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
+    const Default = {
+        scrollbarTheme: 'os-theme-light',
+        scrollbarAutoHide: 'leave',
+        scrollbarClickScroll: true,
+    };
+    document.addEventListener('DOMContentLoaded', function () {
+        const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
+        if (sidebarWrapper && typeof OverlayScrollbarsGlobal?.OverlayScrollbars !== 'undefined') {
+            OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
+                scrollbars: {
+                    theme: Default.scrollbarTheme,
+                    autoHide: Default.scrollbarAutoHide,
+                    clickScroll: Default.scrollbarClickScroll,
+                },
+            });
+        }
+    });
 </script>
 <!--end::OverlayScrollbars Configure-->
 <!-- OPTIONAL SCRIPTS -->
@@ -38,18 +38,18 @@
         crossorigin="anonymous"></script>
 <!-- sortablejs -->
 <script>
-      const connectedSortables = document.querySelectorAll('.connectedSortable');
-      connectedSortables.forEach((connectedSortable) => {
-          let sortable = new Sortable(connectedSortable, {
-              group: 'shared',
-              handle: '.card-header',
-          });
-      });
+    const connectedSortables = document.querySelectorAll('.connectedSortable');
+    connectedSortables.forEach((connectedSortable) => {
+        let sortable = new Sortable(connectedSortable, {
+            group: 'shared',
+            handle: '.card-header',
+        });
+    });
 
-      const cardHeaders = document.querySelectorAll('.connectedSortable .card-header');
-      cardHeaders.forEach((cardHeader) => {
-          cardHeader.style.cursor = 'move';
-      });
+    const cardHeaders = document.querySelectorAll('.connectedSortable .card-header');
+    cardHeaders.forEach((cardHeader) => {
+        cardHeader.style.cursor = 'move';
+    });
 </script>
 <!-- apexcharts -->
 <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.min.js"
@@ -57,62 +57,62 @@
         crossorigin="anonymous"></script>
 <!-- ChartJS -->
 <script>
-      // NOTICE!! DO NOT USE ANY OF THIS JAVASCRIPT
-      // IT'S ALL JUST JUNK FOR DEMO
-      // ++++++++++++++++++++++++++++++++++++++++++
+    // NOTICE!! DO NOT USE ANY OF THIS JAVASCRIPT
+    // IT'S ALL JUST JUNK FOR DEMO
+    // ++++++++++++++++++++++++++++++++++++++++++
 
-      const sales_chart_options = {
-          series: [
-              {
-                  name: 'Digital Goods',
-                  data: [28, 48, 40, 19, 86, 27, 90],
-              },
-              {
-                  name: 'Electronics',
-                  data: [65, 59, 80, 81, 56, 55, 40],
-              },
-          ],
-          chart: {
-              height: 300,
-              type: 'area',
-              toolbar: {
-                  show: false,
-              },
-          },
-          legend: {
-              show: false,
-          },
-          colors: ['#0d6efd', '#20c997'],
-          dataLabels: {
-              enabled: false,
-          },
-          stroke: {
-              curve: 'smooth',
-          },
-          xaxis: {
-              type: 'datetime',
-              categories: [
-                  '2023-01-01',
-                  '2023-02-01',
-                  '2023-03-01',
-                  '2023-04-01',
-                  '2023-05-01',
-                  '2023-06-01',
-                  '2023-07-01',
-              ],
-          },
-          tooltip: {
-              x: {
-                  format: 'MMMM yyyy',
-              },
-          },
-      };
+    const sales_chart_options = {
+        series: [
+            {
+                name: 'Digital Goods',
+                data: [28, 48, 40, 19, 86, 27, 90],
+            },
+            {
+                name: 'Electronics',
+                data: [65, 59, 80, 81, 56, 55, 40],
+            },
+        ],
+        chart: {
+            height: 300,
+            type: 'area',
+            toolbar: {
+                show: false,
+            },
+        },
+        legend: {
+            show: false,
+        },
+        colors: ['#0d6efd', '#20c997'],
+        dataLabels: {
+            enabled: false,
+        },
+        stroke: {
+            curve: 'smooth',
+        },
+        xaxis: {
+            type: 'datetime',
+            categories: [
+                '2023-01-01',
+                '2023-02-01',
+                '2023-03-01',
+                '2023-04-01',
+                '2023-05-01',
+                '2023-06-01',
+                '2023-07-01',
+            ],
+        },
+        tooltip: {
+            x: {
+                format: 'MMMM yyyy',
+            },
+        },
+    };
 
-      const sales_chart = new ApexCharts(
-          document.querySelector('#revenue-chart'),
-          sales_chart_options,
-      );
-      sales_chart.render();
+    const sales_chart = new ApexCharts(
+        document.querySelector('#revenue-chart'),
+        sales_chart_options,
+    );
+    sales_chart.render();
 </script>
 <!-- jsvectormap -->
 <script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/js/jsvectormap.min.js"
@@ -123,109 +123,200 @@
         crossorigin="anonymous"></script>
 <!-- jsvectormap -->
 <script>
-      const visitorsData = {
-          US: 398, // USA
-          SA: 400, // Saudi Arabia
-          CA: 1000, // Canada
-          DE: 500, // Germany
-          FR: 760, // France
-          CN: 300, // China
-          AU: 700, // Australia
-          BR: 600, // Brazil
-          IN: 800, // India
-          GB: 320, // Great Britain
-          RU: 3000, // Russia
-      };
+    const visitorsData = {
+        US: 398, // USA
+        SA: 400, // Saudi Arabia
+        CA: 1000, // Canada
+        DE: 500, // Germany
+        FR: 760, // France
+        CN: 300, // China
+        AU: 700, // Australia
+        BR: 600, // Brazil
+        IN: 800, // India
+        GB: 320, // Great Britain
+        RU: 3000, // Russia
+    };
 
-      // World map by jsVectorMap
-      const map = new jsVectorMap({
-          selector: '#world-map',
-          map: 'world',
-      });
+    // World map by jsVectorMap
+    const map = new jsVectorMap({
+        selector: '#world-map',
+        map: 'world',
+    });
 
-      // Sparkline charts
-      const option_sparkline1 = {
-          series: [
-              {
-                  data: [1000, 1200, 920, 927, 931, 1027, 819, 930, 1021],
-              },
-          ],
-          chart: {
-              type: 'area',
-              height: 50,
-              sparkline: {
-                  enabled: true,
-              },
-          },
-          stroke: {
-              curve: 'straight',
-          },
-          fill: {
-              opacity: 0.3,
-          },
-          yaxis: {
-              min: 0,
-          },
-          colors: ['#DCE6EC'],
-      };
+    // Sparkline charts
+    const option_sparkline1 = {
+        series: [
+            {
+                data: [1000, 1200, 920, 927, 931, 1027, 819, 930, 1021],
+            },
+        ],
+        chart: {
+            type: 'area',
+            height: 50,
+            sparkline: {
+                enabled: true,
+            },
+        },
+        stroke: {
+            curve: 'straight',
+        },
+        fill: {
+            opacity: 0.3,
+        },
+        yaxis: {
+            min: 0,
+        },
+        colors: ['#DCE6EC'],
+    };
 
-      const sparkline1 = new ApexCharts(document.querySelector('#sparkline-1'), option_sparkline1);
-      sparkline1.render();
+    const sparkline1 = new ApexCharts(document.querySelector('#sparkline-1'), option_sparkline1);
+    sparkline1.render();
 
-      const option_sparkline2 = {
-          series: [
-              {
-                  data: [515, 519, 520, 522, 652, 810, 370, 627, 319, 630, 921],
-              },
-          ],
-          chart: {
-              type: 'area',
-              height: 50,
-              sparkline: {
-                  enabled: true,
-              },
-          },
-          stroke: {
-              curve: 'straight',
-          },
-          fill: {
-              opacity: 0.3,
-          },
-          yaxis: {
-              min: 0,
-          },
-          colors: ['#DCE6EC'],
-      };
+    const option_sparkline2 = {
+        series: [
+            {
+                data: [515, 519, 520, 522, 652, 810, 370, 627, 319, 630, 921],
+            },
+        ],
+        chart: {
+            type: 'area',
+            height: 50,
+            sparkline: {
+                enabled: true,
+            },
+        },
+        stroke: {
+            curve: 'straight',
+        },
+        fill: {
+            opacity: 0.3,
+        },
+        yaxis: {
+            min: 0,
+        },
+        colors: ['#DCE6EC'],
+    };
 
-      const sparkline2 = new ApexCharts(document.querySelector('#sparkline-2'), option_sparkline2);
-      sparkline2.render();
+    const sparkline2 = new ApexCharts(document.querySelector('#sparkline-2'), option_sparkline2);
+    sparkline2.render();
 
-      const option_sparkline3 = {
-          series: [
-              {
-                  data: [15, 19, 20, 22, 33, 27, 31, 27, 19, 30, 21],
-              },
-          ],
-          chart: {
-              type: 'area',
-              height: 50,
-              sparkline: {
-                  enabled: true,
-              },
-          },
-          stroke: {
-              curve: 'straight',
-          },
-          fill: {
-              opacity: 0.3,
-          },
-          yaxis: {
-              min: 0,
-          },
-          colors: ['#DCE6EC'],
-      };
+    const option_sparkline3 = {
+        series: [
+            {
+                data: [15, 19, 20, 22, 33, 27, 31, 27, 19, 30, 21],
+            },
+        ],
+        chart: {
+            type: 'area',
+            height: 50,
+            sparkline: {
+                enabled: true,
+            },
+        },
+        stroke: {
+            curve: 'straight',
+        },
+        fill: {
+            opacity: 0.3,
+        },
+        yaxis: {
+            min: 0,
+        },
+        colors: ['#DCE6EC'],
+    };
 
-      const sparkline3 = new ApexCharts(document.querySelector('#sparkline-3'), option_sparkline3);
-      sparkline3.render();
+    const sparkline3 = new ApexCharts(document.querySelector('#sparkline-3'), option_sparkline3);
+    sparkline3.render();
 </script>
 <!--end::Script-->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const apiBaseUrl = "https://localhost:7219/api/GlobalSettings";
+
+        async function fetchSaleStatus() {
+            try {
+                const res = await fetch(apiBaseUrl);
+                if (res.ok) {
+                    const data = await res.json();
+                    updateSaleBadge(data.isSaleOpen, data.id);
+                } else {
+                    updateSaleBadge(null, null);
+                }
+            } catch (error) {
+                updateSaleBadge(null, null);
+                console.error("Hata oluştu:", error);
+            }
+        }
+
+        function updateSaleBadge(isOpen) {
+            const badge = document.getElementById("saleStatusBadge");
+            if (isOpen === true) {
+                badge.className = "badge bg-success";
+                badge.innerText = "Açık";
+            } else if (isOpen === false) {
+                badge.className = "badge bg-danger";
+                badge.innerText = "Kapalı";
+            } else {
+                badge.className = "badge bg-secondary";
+                badge.innerText = "Bilinmiyor";
+            }
+        }
+
+        async function toggleSaleStatus() {
+            try {
+                const res = await fetch(apiBaseUrl);
+                if (!res.ok) {
+                    Swal.fire("Hata", "Mevcut durumu alamadık!", "error");
+                    return;
+                }
+
+                const data = await res.json();
+                const newStatus = !data.isSaleOpen;
+                const statusText = newStatus ? "SATIŞI AÇMAK" : "SATIŞI KAPATMAK";
+
+                const confirmResult = await Swal.fire({
+                    title: `${statusText} istediğinize emin misiniz?`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Evet',
+                    cancelButtonText: 'Hayır'
+                });
+
+                if (confirmResult.isConfirmed) {
+                    const updateRes = await fetch(apiBaseUrl, {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            id: data.id,
+                            isSaleOpen: newStatus
+                        })
+                    });
+
+                    if (updateRes.ok) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Başarılı!',
+                            text: `Satış durumu ${newStatus ? 'Açık' : 'Kapalı'} olarak değiştirildi.`,
+                            timer: 1500,
+                            showConfirmButton: false
+                        });
+
+                        await fetchSaleStatus();
+                    } else {
+                        Swal.fire("Hata", "Güncelleme başarısız oldu!", "error");
+                    }
+                }
+            } catch (error) {
+                console.error(error);
+                Swal.fire("Hata", "Beklenmeyen hata oluştu.", "error");
+            }
+        }
+
+        document.getElementById("toggleSaleBtn").addEventListener("click", toggleSaleStatus);
+        fetchSaleStatus();
+    });
+
+</script>

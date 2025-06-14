@@ -64,6 +64,9 @@ builder.Services.AddScoped<IRoomAvailabilityDal, EfRoomAvailabilityDal>();
 builder.Services.AddScoped<IPricePeriodService, PricePeriodManager>();
 builder.Services.AddScoped<IPricePeriodDal, EfPricePeriodDal>();
 
+builder.Services.AddScoped<IGlobalSettingsService, GlobalSettingsManager>();
+builder.Services.AddScoped<IGlobalSettingsDal, EfGlobalSettingsDal>();
+
 #endregion
 
 builder.Services.AddScoped<RoomAvailabilityJob>();

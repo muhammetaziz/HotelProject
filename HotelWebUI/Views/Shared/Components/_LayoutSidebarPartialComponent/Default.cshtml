@@ -13,13 +13,13 @@
             <ul class="nav sidebar-menu flex-column"
                 data-lte-toggle="treeview"
                 role="menu"
-                data-accordion="false">  
+                data-accordion="false">
                 <li class="nav-item">
                     <a href="/Home/Index/" class="nav-link">
                         <i class="nav-icon bi bi-palette"></i>
                         <p>Ana Sayfa</p>
                     </a>
-                </li> 
+                </li>
                 @*burası admin paneli için*@
                 <li class="nav-item">
                     <a href="#" class="nav-link">
@@ -116,6 +116,19 @@
                         <p>Çıkış</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon bi bi-gear"></i>
+                        <p>
+                            Satış Durumu: <span id="saleStatusBadge" class="badge bg-secondary">Yükleniyor...</span>
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <button id="toggleSaleBtn" class="btn btn-primary btn-sm w-100 mt-2">Satış Durumunu Değiştir</button>
+                </li>
+
+
 
             </ul>
         </nav>

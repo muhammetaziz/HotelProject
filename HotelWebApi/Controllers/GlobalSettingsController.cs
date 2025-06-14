@@ -20,6 +20,12 @@ namespace HotelWebApi.Controllers
         public IActionResult GetSettings()
         {
             var settings = _globalSettingsService.GetSettings();
+            if (settings == null)
+            {
+                // İlk başta hiç kayıt yoksa sıfırdan kayıt eklenmesi için.
+                settings = new GlobalSettings { IsSaleOpen = true };
+                _globalSettingsService.UpdateSettings(settings);
+            }
             return Ok(settings);
         }
 
