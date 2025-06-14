@@ -13,5 +13,8 @@ namespace HotelDataAccessLayer.Abstract
         void Delete(T entity);
         T GetById(int id);
         List<T> GetListAll();
+         
+        
+
     }
 }

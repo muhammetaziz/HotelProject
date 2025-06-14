@@ -11,7 +11,8 @@ namespace HotelDataAccessLayer.Abstract
     public interface IPricePeriodDal:IGenericDal<RoomTypePricePeriod>
     {
         List<RoomTypePricePeriod> GetSpecialPriceListWithRoomType();
-        Task<bool> IsOverlappingAsync(int roomTypeId, DateTime startDate, DateTime endDate);    
+        Task<bool> IsOverlappingAsync(int roomTypeId, DateTime startDate, DateTime endDate);
 
+        Task InsertAsync(RoomTypePricePeriod entity);
     }
 }

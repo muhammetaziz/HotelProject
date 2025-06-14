@@ -12,7 +12,8 @@ namespace HotelBusinessLayer.Abstract
     {
         List<RoomTypePricePeriod> TGetSpecialPriceListWithRoomType();
         Task<bool> IsOverlappingAsync(int roomTypeId, DateTime startDate, DateTime endDate);
-        
+        Task InsertAsync(RoomTypePricePeriod entity);
+
 
 
     }

@@ -53,7 +53,10 @@ namespace HotelBusinessLayer.Concrete
         {
             return await _pricePeriodDal.IsOverlappingAsync(roomTypeId, startDate, endDate);
         }
-        
 
+        public async Task InsertAsync(RoomTypePricePeriod entity)
+        {
+            await _pricePeriodDal.InsertAsync(entity);
+        }
     }
 }

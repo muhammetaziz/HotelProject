@@ -13,8 +13,10 @@ namespace HotelDataAccessLayer.EntityFramework
 {
     public class EfPricePeriodDal : GenericRepository<RoomTypePricePeriod>, IPricePeriodDal
     {
+        private readonly HotelContext _context;
         public EfPricePeriodDal(HotelContext context) : base(context)
         {
+            _context = context;
         }
         public List<RoomTypePricePeriod> GetSpecialPriceListWithRoomType()
         {
@@ -24,6 +26,12 @@ namespace HotelDataAccessLayer.EntityFramework
                     .Include(x => x.RoomType)
                     .ToList();
             }
+        }
+
+        public async Task InsertAsync(RoomTypePricePeriod entity)
+        {
+            await _context.RoomTypePricePeriods.AddAsync(entity);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<bool> IsOverlappingAsync(int roomTypeId, DateTime startDate, DateTime endDate)

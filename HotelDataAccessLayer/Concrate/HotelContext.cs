@@ -92,6 +92,7 @@ namespace HotelDataAccessLayer.Concrate
         public DbSet<SocialMedia> SocialMedias { get; set; }
         public DbSet<RoomAvailability> RoomAvailabilities { get; set; }
         public DbSet<RoomTypePricePeriod> RoomTypePricePeriods { get; set; }
+        public DbSet<GlobalSettings> GlobalSettings { get; set; }
 
 
     }

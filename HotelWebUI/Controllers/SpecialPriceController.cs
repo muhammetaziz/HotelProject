@@ -17,7 +17,7 @@ namespace HotelWebUI.Controllers
         }
 
         public async Task<IActionResult> Index()
-        
+
         {
             var client = _httpClientFactory.CreateClient();
             var response = await client.GetAsync("https://localhost:7219/api/PricePeriod");
@@ -53,16 +53,15 @@ namespace HotelWebUI.Controllers
             return View(model);
         }
 
-        [HttpDelete]
 
         public async Task<IActionResult> Delete(int id)
         {
             var client = _httpClientFactory.CreateClient();
-            var response = await client.GetAsync($"https://localhost:7219/api/PricePeriod/{id}");
-            if (!response.IsSuccessStatusCode) return NotFound();
-            var json = await response.Content.ReadAsStringAsync();
-            var model = JsonConvert.DeserializeObject<SpecialPriceDto>(json);
-            return View(model);
+            var response = await client.DeleteAsync($"https://localhost:7219/api/PricePeriod/{id}");
+            if (response.IsSuccessStatusCode)
+                return RedirectToAction("Index");
+
+            return NotFound();
         }
 
     }

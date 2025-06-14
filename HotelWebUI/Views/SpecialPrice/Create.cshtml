@@ -3,28 +3,68 @@
 @{
     ViewData["Title"] = "Yeni Özel Fiyat";
     Layout = "~/Views/AdminLayout/Index.cshtml";
-}
+} 
 
-<div class="container mt-4">
-    <h2>Yeni Özel Fiyat Ekle</h2>
+<!-- SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <form asp-action="Create" method="post">
-        <div class="mb-3">
-            <label>Oda Tipi</label>
-            <select asp-for="RoomTypeId" asp-items="ViewBag.RoomTypes" class="form-control"></select>
-        </div>
-        <div class="mb-3">
-            <label>Özel Fiyat</label>
-            <input asp-for="SpecialPrice" class="form-control" />
-        </div>
-        <div class="mb-3">
-            <label>Başlangıç Tarihi</label>
-            <input asp-for="StartDate" type="date" class="form-control" />
-        </div>
-        <div class="mb-3">
-            <label>Bitiş Tarihi</label>
-            <input asp-for="EndDate" type="date" class="form-control" />
-        </div>
-        <button type="submit" class="btn btn-success">Kaydet</button>
-    </form>
+<div class="container mt-5">
+    <div class="card shadow p-4">
+        <h3 class="mb-4 text-primary">Yeni Özel Fiyat Ekle</h3>
+
+        <form id="specialPriceForm" method="post">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Oda Tipi</label>
+                    <select asp-for="RoomTypeId" asp-items="ViewBag.RoomTypes" class="form-select"></select>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Özel Fiyat (₺)</label>
+                    <input asp-for="SpecialPrice" class="form-control" />
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Başlangıç Tarihi</label>
+                    <input asp-for="StartDate" type="date" class="form-control" />
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Bitiş Tarihi</label>
+                    <input asp-for="EndDate" type="date" class="form-control" />
+                </div>
+            </div>
+
+            <div class="mt-4 text-end">
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-save"></i> Kaydet
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
+
+<script>
+    document.getElementById('specialPriceForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const roomTypeId = document.querySelector('[name="RoomTypeId"]').value;
+        const startDate = document.querySelector('[name="StartDate"]').value;
+        const endDate = document.querySelector('[name="EndDate"]').value;
+
+        const response = await fetch(`https://localhost:7219/api/PricePeriod/CheckOverlap?roomTypeId=${roomTypeId}&startDate=${startDate}&endDate=${endDate}`);
+        const isOverlapping = await response.json();
+
+        if (isOverlapping) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Çakışan Tarih!',
+                text: 'Bu oda tipi için bu tarih aralığında zaten bir özel fiyat tanımı mevcut.',
+                confirmButtonText: 'Tamam',
+            });
+        } else {
+            // Tarih çakışması yok, formu gönder
+            this.submit();
+        }
+    });
+</script>

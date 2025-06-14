@@ -37,13 +37,7 @@ namespace HotelWebApi.Controllers
             return Ok(result);
         }
 
-        [HttpPost]
-        public IActionResult Create(CreateRoomTypePricePeriodDto dto)
-        {
-            var entity = _mapper.Map<RoomTypePricePeriod>(dto);
-            _roomTypePricePeriodService.TInsert(entity);
-            return Ok("Özel fiyat dönemi eklendi.");
-        }
+         
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateRoomTypePricePeriodDto dto)
@@ -57,8 +51,7 @@ namespace HotelWebApi.Controllers
                 return BadRequest("Bu oda tipi için bu tarih aralığında zaten bir özel fiyat tanımı mevcut.");
 
             var entity = _mapper.Map<RoomTypePricePeriod>(dto);
-
-            await _roomTypePricePeriodService.TInsert(entity); // ✅ AddAsync yerine bunu kullan
+            await _roomTypePricePeriodService.InsertAsync(entity);
 
             return Ok();
         }
@@ -79,5 +72,12 @@ namespace HotelWebApi.Controllers
             _roomTypePricePeriodService.TDelete(value);
             return Ok("Özel fiyat dönemi silindi.");
         }
+        [HttpGet("CheckOverlap")]
+        public async Task<IActionResult> CheckOverlap(int roomTypeId, DateTime startDate, DateTime endDate)
+        {
+            var isOverlapping = await _roomTypePricePeriodService.IsOverlappingAsync(roomTypeId, startDate, endDate);
+            return Ok(isOverlapping);
+        }
+
     }
 }
